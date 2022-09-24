@@ -1,0 +1,13 @@
+.Footer {
+    position: fixed;
+    background-color: #282c34;
+    width: 100%;
+    bottom: 0px;
+    color: #857b7b;
+}
+
+.Footer-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
