@@ -1,11 +1,5 @@
 import './App.css';
 import './Posting.css';
-import logo from './pizza-slice.svg';
-import Post from './models/Post';
-import Reply from './Reply';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import * as TimelineRepo from './repository/Timeline';
 
 function Error(props) {
     // Render
