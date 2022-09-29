@@ -43,25 +43,25 @@ export function addUser(user){
 // Read
 export function getUserById(id){
     var users = retrieveUsers();
-    return users.filter((u) => {return u.id == id})[0];
+    return users.filter((u) => {return u.id === id})[0];
 }
 
 // Read
 export function getUserByEmail(email){
     var users = retrieveUsers();
-    return users.filter((u) => {return u.email.toLowerCase() == email.toLowerCase()})[0];
+    return users.filter((u) => {return u.email.toLowerCase() === email.toLowerCase()})[0];
 }
 
 // Read
 export function doesUserExist(id){
     var users = retrieveUsers();
-    return (users.filter((u) => {return u.id == id}).length != 0);
+    return (users.filter((u) => {return u.id === id}).length !== 0);
 }
 
 // Read
 export function isEmailAlreadyUsed(email){
     var users = retrieveUsers();
-    return (users.filter((u) => {return u.email == email}).length != 0);
+    return (users.filter((u) => {return u.email === email}).length !== 0);
 }
 
 //Delete (remove completely)
@@ -69,6 +69,6 @@ export function deleteUserById(id){
 
     // Filter this post out
     var users = retrieveUsers();
-    users = users.filter((u) => { return u.id != id });
+    users = users.filter((u) => { return u.id !== id });
     updateUsers(users);
 }

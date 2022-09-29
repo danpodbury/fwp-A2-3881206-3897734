@@ -1,9 +1,10 @@
 //adapted from: https://www.pluralsight.com/guides/how-to-use-a-simple-form-submit-with-files-in-react
-import React, {useRef} from 'react'
+// import React, {useRef} from 'react'
+import React from 'react'
 
 const FileUploader = (props) => {
-    const fileInput = useRef(null)
-    const maxSize = 1024
+    // const fileInput = useRef(null)
+    // const maxSize = 1024
 
     const handleFileInput = (e) => {
         e.preventDefault()

@@ -1,8 +1,8 @@
 import logo from './pizza-slice.svg';
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import './App.css';
+import './App.css'; 
 
 function Home() {
   const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
@@ -13,7 +13,7 @@ function Home() {
     if (isLoggedIn){
       nav("/profile");
     }
-  }, []);
+  }, [isLoggedIn, nav]);
   
   return (
     <div className="App">

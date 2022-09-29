@@ -1,7 +1,6 @@
 import './App.css';
 import './Posting.css';
 import logo from './pizza-slice.svg';
-import Post from './models/Post';
 import Reply from './Reply';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -62,7 +61,7 @@ function Comment(props) {
     return (<>    
     <div className='comment' style={{"marginLeft":margin}} >
         <div className='comment-icon'>
-            <img src={logo} />
+            <img src={logo} alt="logo" />
         </div>
         <div className='comment-body'>
             <div className='comment-name'>
@@ -81,7 +80,7 @@ function Comment(props) {
                 { (!showAsEditable && props.isRecord)? <button className="btn" onClick={toggleReply} style={{"backgroundColor":"orange"}}>Reply</button> : <></>}
                 
                 {//TODO: use a better validation method than name
-                (currentUser.name == post.name) ? 
+                (currentUser.name === post.name) ? 
                     (showAsEditable)? <>
                         <button className="btn btn-secondary" onClick={toggleEdit}>Cancel</button>
                         <button className="btn btn-success" onClick={handleEdit}>Save</button>
