@@ -1,6 +1,8 @@
-// General CRUD and util functions to interact with the timeline "database"
-// I'll probably modify this for A2 to talk to the sql DB
-// Hopefully that means the rest of the component don't have to change
+// import axios from "axios";
+
+// // --- Constants ----------------------------------------------------------------------------------
+// const API_HOST = "http://localhost:4000";
+// const USER_KEY = "s3881206";
 
 function retrieveTimeline(){
     let timeline = JSON.parse(localStorage.getItem("timeline"));
