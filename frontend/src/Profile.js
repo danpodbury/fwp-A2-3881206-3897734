@@ -58,7 +58,7 @@ function Profile() {
                 </div>
                 <div className="form-container" style={{"width":"80%"}}>
                     My Posts
-                    <UserPosts userId={userDetails.id}/>
+                    {/*<UserPosts userId={userDetails.id}/>*/}
                 </div>
             </header>
             </div>

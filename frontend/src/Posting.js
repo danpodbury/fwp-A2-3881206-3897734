@@ -47,7 +47,7 @@ function Timeline(){
 
         //limit post length
         console.log(postBody.length)
-        if (postBody.length === 0 || postBody.length > 250){
+        if (postBody.length === 0 || postBody.length > 250){ // todo: change to 600
             alert("Posts must be between 1 and 250 characters")
             return;
         }

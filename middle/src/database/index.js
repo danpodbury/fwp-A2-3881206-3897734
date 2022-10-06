@@ -17,7 +17,7 @@ db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
 
 // Relate post and user.
-db.post.belongsTo(db.user, { foreignKey: { name: "username", allowNull: false } });
+db.post.belongsTo(db.user, { foreignKey: { name: "email", allowNull: false } });
 
 // Learn more about associations here: https://sequelize.org/master/manual/assocs.html
 
@@ -42,10 +42,10 @@ async function seedData() {
   const argon2 = require("argon2");
 
   let hash = await argon2.hash("abc123", { type: argon2.argon2id });
-  await db.user.create({ username: "mbolger", password_hash: hash, first_name: "Matthew", last_name : "Bolger" });
+  await db.user.create({ email: "dpod@email.com", password_hash: hash, name: "Dan", join_date : null });
 
   hash = await argon2.hash("def456", { type: argon2.argon2id });
-  await db.user.create({ username: "shekhar", password_hash: hash, first_name: "Shekhar", last_name : "Kalra" });
+  await db.user.create({ email: "oliG@email.com", password_hash: hash, name: "Oliver", join_date : null });
 }
 
 module.exports = db;

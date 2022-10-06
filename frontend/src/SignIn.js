@@ -3,7 +3,7 @@ import React from 'react';
 import useInput from './hooks/useInput';
 import { useNavigate } from "react-router-dom";
 // import emailjs from '@emailjs/browser';
-// import * as UserRepo from './repository/User';
+import * as UserRepo from './repository/User';
 
 function SignIn() {
   const nav = useNavigate();
@@ -39,33 +39,16 @@ function SignIn() {
   */
 
   // Attempt to sign in
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
     resetPassword();;
     resetEmail();
 
-    var userRecords = JSON.parse(localStorage.getItem('users'));
-
-    // check if user already exists
-    var correctAuth = false;
-    let currentUser = {}
-    for(var i=0; i < userRecords.length; i++){
-      if(userRecords[i].email === Email && userRecords[i].password === Password) { 
-        correctAuth = true; 
-        currentUser = userRecords[i];
-        break;
-      }
-    }
-
-    // prevent logging in as deleted account
-    if (Email === ""){
-      correctAuth = false;
-    }
-
-    if (correctAuth){
-      alert("Login successful!");
+    let user = await UserRepo.verifyUser(Email, Password)
+    if (user !== null){
+      alert(`Login successful! email:${Email}, pw: ${Password}`);
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      localStorage.setItem("currentUser", JSON.stringify(user));
       nav("/");
       window.location.reload();
     } else {
