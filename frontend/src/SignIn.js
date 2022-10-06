@@ -2,8 +2,8 @@ import './App.css';
 import React from 'react';
 import useInput from './hooks/useInput';
 import { useNavigate } from "react-router-dom";
-import emailjs from '@emailjs/browser';
-import * as UserRepo from './repository/User';
+// import emailjs from '@emailjs/browser';
+// import * as UserRepo from './repository/User';
 
 function SignIn() {
   const nav = useNavigate();
@@ -11,6 +11,7 @@ function SignIn() {
   const { value:Email, bind:bindEmail, reset:resetEmail } = useInput('');
   const { value:Password, bind:bindPassword, reset:resetPassword } = useInput('');
   
+  /*
   const sendEmail = (e) => {
     e.preventDefault();
 
@@ -34,9 +35,8 @@ function SignIn() {
     } else {
       alert('That email is not registered')
     }
-
-
   };
+  */
 
   // Attempt to sign in
   const handleSubmit = (evt) => {
@@ -50,7 +50,7 @@ function SignIn() {
     var correctAuth = false;
     let currentUser = {}
     for(var i=0; i < userRecords.length; i++){
-      if(userRecords[i].email == Email && userRecords[i].password == Password) { 
+      if(userRecords[i].email === Email && userRecords[i].password === Password) { 
         correctAuth = true; 
         currentUser = userRecords[i];
         break;
@@ -58,7 +58,7 @@ function SignIn() {
     }
 
     // prevent logging in as deleted account
-    if (Email == ""){
+    if (Email === ""){
       correctAuth = false;
     }
 

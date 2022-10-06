@@ -1,8 +1,8 @@
 import './App.css';
 import './Posting.css';
-import logo from './pizza-slice.svg';
-import Post from './models/Post';
-import { useNavigate, Link } from 'react-router-dom';
+// import logo from './pizza-slice.svg';
+// import Post from './models/Post';
+import { useNavigate } from 'react-router-dom';
 import useInput from './hooks/useInput';
 
 
@@ -10,7 +10,7 @@ function Reply(props) {
     const nav = useNavigate();
 
     const margin = parseInt(props.level) * 40 + "px"
-    const { value:Body, bind:bindBody, reset:resetBody } = useInput('');
+    const { value:Body, bind:bindBody } = useInput('');
 
     function closeThis() {
         //call super toggle function

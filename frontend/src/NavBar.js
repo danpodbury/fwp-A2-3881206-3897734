@@ -21,9 +21,9 @@ function NavBar() {
           </span>
           </div>
 
-          {isLoggedIn == "true" ? <div className='nav-button'><Link to ="/post" >Posting</Link></div> : <></>}
+          {isLoggedIn === "true" ? <div className='nav-button'><Link to ="/post" >Posting</Link></div> : <></>}
 
-          {isLoggedIn == "true" ? <MemberBar/> : <GuestBar/>}
+          {isLoggedIn === "true" ? <MemberBar/> : <GuestBar/>}
 
       </div>
     </div>

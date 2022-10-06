@@ -45,7 +45,7 @@ export function addPost(post){
 // Read
 export function getPostById(id){
     var timeline = retrieveTimeline();
-    return timeline.filter((p) => {return p.post_id == id})[0];
+    return timeline.filter((p) => {return p.post_id === id})[0];
 }
 
 // Read
@@ -57,7 +57,7 @@ export function getRootPosts(){
 // Read
 export function getUserPostsById(userId){
     var timeline = retrieveTimeline();
-    return timeline.filter((p) => {return p.user_id == userId});
+    return timeline.filter((p) => {return p.user_id === userId});
 }
 
 
@@ -94,7 +94,7 @@ export function removeUsersPosts(userId){
         let timeline = retrieveTimeline();
 
         // find the next post
-        let userPost = timeline.find((p) => {return p.user_id == userId})
+        let userPost = timeline.find((p) => {return p.user_id === userId})
 
         // either remove or redact it
         if (userPost.childIDs.length === 0){
@@ -115,7 +115,7 @@ export function redactPostById(postId){
 
     // search and redact the post with this id
     timeline.forEach((p) => {
-        if (p.post_id == postId){
+        if (p.post_id === postId){
             p.user_id = -1;
             p.name = "[deleted]"
             p.body = "[deleted]"
@@ -130,7 +130,7 @@ export function deletePostById(postId){
 
     // Filter this post out
     var timeline = retrieveTimeline();
-    timeline = timeline.filter((p) => { return p.post_id != postId });
+    timeline = timeline.filter((p) => { return p.post_id !== postId });
     updateTimeline(timeline);
  
     // Sever link with parent if it exists

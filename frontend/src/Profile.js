@@ -43,7 +43,7 @@ function Profile() {
     // Render
     return (
         <>
-        {isLoggedIn == "true" ? 
+        {isLoggedIn === "true" ? 
         <div className="App">
             <div id="profile-display">
             <header className="App-header">
@@ -94,8 +94,8 @@ function EditProfile({handleEdit}){
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
     // Set up form state
-    const { value:Name, bind:bindName, reset:resetName} = useInput(currentUser.name);
-    const { value:Email, bind:bindEmail, reset:resetEmail } = useInput(currentUser.email);
+    const { value:Name, bind:bindName } = useInput(currentUser.name);
+    const { value:Email, bind:bindEmail } = useInput(currentUser.email);
   
     // Update localStorage on submit
     const handleSubmit = (evt) => {

@@ -1,8 +1,8 @@
 import './App.css';
 import React, { useEffect } from 'react';
 import {useState} from 'react';
-import useInput from './hooks/useInput';
-import { ConfirmationModal } from './Modal';
+// import useInput from './hooks/useInput';
+// import { ConfirmationModal } from './Modal';
 import NotAuthorized from './NotAuth';
 import UserPosts from './UserPosts';
 import { useParams } from 'react-router-dom';
@@ -24,7 +24,7 @@ function PublicProfile() {
             nav("/Error");
             return;
         }
-    },[])
+    },[nav, userId, validUser])
 
       
     // Only allow members to access this page
