@@ -1,74 +1,71 @@
-// General CRUD and util functions to interact with the timeline "database"
-// I'll probably modify this for A2 to talk to the sql DB
-// Hopefully that means the rest of the component don't have to change
+import axios from "axios";
 
-function retrieveUsers(){
-    let users = JSON.parse(localStorage.getItem("users"));
-    if (users == null){
-        users = []
-        localStorage.setItem("users",JSON.stringify(users));
+// --- Constants ----------------------------------------------------------------------------------
+const API_HOST = "http://localhost:4000";
+//const USER_KEY = "s3881206";
+
+// ------------------------------------------------------------------------------------------------
+
+function updateUser(currentUser){
+    return localStorage.setItem("currentUser",JSON.stringify(currentUser));
+}
+
+// [POST] Create
+export async function registerUser(user){
+    const response = await axios.post(API_HOST + "/api/users", user);
+    
+    return response.data;
+}
+
+// Read
+export async function getUserById(id){
+    const response = await axios.get(API_HOST + `/api/users/select/${id}`);
+    const user = response.data;
+
+    //save user to local
+    if(user !== null) {
+        updateUser(user)
+        return response.data;
+    } else {
+        return null
     }
-    return users
-}
-function updateUsers(users){
-    return localStorage.setItem("users",JSON.stringify(users));
 }
 
-// crude auto incrementing id for users
-// the real database will take care of this in the future
-function getNextUserIndex() {
-    var users = retrieveUsers();
+// this function verifyUser stolen from week 8 tut
+export async function verifyUser(email, password) {
+    const response = await axios.get(API_HOST + "/api/users/login", { params: { email, password } });
+    const user = response.data;
 
-    var maxIndex = 0;
-    users.forEach((u) => {
-        if (u.id > maxIndex){
-            maxIndex = u.id;
-        }
-    });
-    return maxIndex + 1;
-}
+    //save user to local
+    if(user !== null) {
+        updateUser(user)
+        return response.data;
+    } else {
+        return null
+    }
+  }
 
-// Create
-export function addUser(user){
-    var users = retrieveUsers();
-
-    user.id = getNextUserIndex();
-    users.push(user);
-
-    updateUsers(users);
-
-    return user.id;
-}
+// // Read
+// export function getUserByEmail(email){
+//     var users = retrieveUsers();
+//     return users.filter((u) => {return u.email.toLowerCase() === email.toLowerCase()})[0];
+// }
 
 // Read
-export function getUserById(id){
-    var users = retrieveUsers();
-    return users.filter((u) => {return u.id === id})[0];
+export async function doesUserExist(id){
+    const response = await axios.get(API_HOST + `/api/users/select/${id}`);
+    
+    return (response.data.length() > 0)
 }
 
-// Read
-export function getUserByEmail(email){
-    var users = retrieveUsers();
-    return users.filter((u) => {return u.email.toLowerCase() === email.toLowerCase()})[0];
-}
+// // Read
+// export function isEmailAlreadyUsed(email){
+//     var users = retrieveUsers();
+//     return (users.filter((u) => {return u.email === email}).length !== 0);
+// }
 
-// Read
-export function doesUserExist(id){
-    var users = retrieveUsers();
-    return (users.filter((u) => {return u.id === id}).length !== 0);
-}
-
-// Read
-export function isEmailAlreadyUsed(email){
-    var users = retrieveUsers();
-    return (users.filter((u) => {return u.email === email}).length !== 0);
-}
-
-//Delete (remove completely)
-export function deleteUserById(id){
-
-    // Filter this post out
-    var users = retrieveUsers();
-    users = users.filter((u) => { return u.id !== id });
-    updateUsers(users);
+// Delete (remove completely)
+export async function deleteUserById(id){
+    const response = await axios.delete(API_HOST + `/api/users/select/${id}`);
+    return response.data;
 }

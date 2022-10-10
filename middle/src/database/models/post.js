@@ -6,9 +6,17 @@ module.exports = (sequelize, DataTypes) =>
       autoIncrement: true,
       primaryKey: true
     },
-    text: {
-      type: DataTypes.TEXT,
+    body: {
+      type: DataTypes.TEXT, //TODO: RICH TEXT can't remember the type
       allowNull: false
+    },
+    timestamp: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    imageURL: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     // Don't add the timestamp attributes (updatedAt, createdAt).

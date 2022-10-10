@@ -28,10 +28,11 @@ function SignUp() {
   },[Password])
 
   // Attempt signup
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    if (zxcvbn(Password).score < 3){
+    let threshold = 0
+    if (zxcvbn(Password).score < threshold){
       alert(`Your password is ${strengthStrings[zxcvbn(Password).score]}. Please use a stronger password.`);
       return;
     }
@@ -39,17 +40,12 @@ function SignUp() {
     // create new user entry
     var user = new User(-1, Name, Email, Password, Date.now());
 
-    //check if user already exists
-    var exists = UserRepo.isEmailAlreadyUsed(Email);
+    //todo: check if user already exists
+    let newUser = UserRepo.registerUser(user);
 
-    if (!exists){
+    if (newUser !== null){
       alert(`Successfuly signed up as ${Name}`);
-
-      // append user details to users array
-      user.id = UserRepo.addUser(user);
-
-      // sign in also
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      localStorage.setItem("currentUser", JSON.stringify(newUser));
       localStorage.setItem("isLoggedIn", "true");
       nav("/");
       window.location.reload();
@@ -70,19 +66,18 @@ function SignUp() {
       <div className='form-container' style={{"width":"25%", "maxWidth":"400px","display":"flex","flexDirection":"column","alignItems":"center", "justifyContent":"space-around"}}>
         <h2>Sign Up</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <div className="mb-8">
             <label htmlFor="exampleInputName" className="form-label" >Name</label>
-            <input className="form-control" type="text" {...bindName} required/>
+            <input className="form-control" type="text" data-testid="form-name" {...bindName} required/>
           </div>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label" >Email address</label>
-            <input className="form-control" type="email" {...bindEmail} required/>
+            <input className="form-control" type="email" data-testid="form-email" {...bindEmail} required/>
           </div>
           <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-
-            <input type="password" className="form-control" id="exampleInputPassword1" {...bindPassword} minLength={5} required/>
+            <label htmlFor="fieldPassword" className="form-label">Password</label>
+            <input type="password" className="form-control" id="fieldPassword" data-testid="form-pw" {...bindPassword} minLength={5} required/>
             <div style={{"fontSize":"8pt","marginTop":"4px"}}>{strengthStrings[zxcvbn(Password).score]}</div>
             
             <div style={{"display":"flex","flexDirection":"row"}}>

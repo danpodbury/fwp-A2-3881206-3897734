@@ -18,13 +18,22 @@ exports.one = async (req, res) => {
 
 // Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
-  const user = await db.user.findByPk(req.query.username);
+  const user = await db.user.findByPk(req.query.email);
 
-  if(user === null || await argon2.verify(user.password_hash, req.query.password) === false)
+  // console.log(`pw: ${req.query.password}`)
+  // console.log(`hash: ${req.query.password_hash}`)
+  // let good =  await argon2.verify(user.password_hash, req.query.password);
+  // console.log(`legit: ${good}`)
+
+  if(user === null || await argon2.verify(user.password_hash, req.query.password) === false){
     // Login failed.
+    console.log("fail")
     res.json(null);
-  else
+  } else {
+    console.log("succ")
     res.json(user);
+  }
+
 };
 
 // Create a user in the database.
@@ -32,10 +41,10 @@ exports.create = async (req, res) => {
   const hash = await argon2.hash(req.body.password, { type: argon2.argon2id });
   
   const user = await db.user.create({
-    username: req.body.username,
+    email: req.body.email,
     password_hash: hash,
-    first_name: req.body.firstname,
-    last_name: req.body.lastname
+    name: req.body.name,
+    join_date: req.body.join_date
   });
 
   res.json(user);
