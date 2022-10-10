@@ -6,7 +6,7 @@ const API_HOST = "http://localhost:4000";
 
 // ------------------------------------------------------------------------------------------------
 
-function updateUser(currentUser){
+function updateLocalUser(currentUser){
     return localStorage.setItem("currentUser",JSON.stringify(currentUser));
 }
 
@@ -24,7 +24,22 @@ export async function getUserById(id){
 
     //save user to local
     if(user !== null) {
-        updateUser(user)
+        updateLocalUser(user)
+        return response.data;
+    } else {
+        return null
+    }
+}
+
+// [PATCH] Update a specific user
+export async function updateUser(user){
+    console.log("updating user")
+    const response = await axios.patch(API_HOST + `/api/users/update/${user.user_id}`, user);
+    const newuser = response.data;
+
+    //save user to local    
+    if(user !== null) {
+        updateLocalUser(newuser)
         return response.data;
     } else {
         return null
@@ -38,18 +53,12 @@ export async function verifyUser(email, password) {
 
     //save user to local
     if(user !== null) {
-        updateUser(user)
+        updateLocalUser(user)
         return response.data;
     } else {
         return null
     }
   }
-
-// // Read
-// export function getUserByEmail(email){
-//     var users = retrieveUsers();
-//     return users.filter((u) => {return u.email.toLowerCase() === email.toLowerCase()})[0];
-// }
 
 // Read
 export async function doesUserExist(id){
@@ -57,12 +66,6 @@ export async function doesUserExist(id){
     
     return (response.data.length() > 0)
 }
-
-// // Read
-// export function isEmailAlreadyUsed(email){
-//     var users = retrieveUsers();
-//     return (users.filter((u) => {return u.email === email}).length !== 0);
-// }
 
 // Delete (remove completely)
 export async function deleteUserById(id){

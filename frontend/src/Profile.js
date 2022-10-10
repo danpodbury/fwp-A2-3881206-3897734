@@ -103,29 +103,16 @@ function EditProfile({handleEdit}){
         alert(`Updating Name => ${Name} \n Email => ${Email}`);
 
         // get user records
-        var userRecords = JSON.parse(localStorage.getItem("users"));
+        //var userRecords = JSON.parse(localStorage.getItem("users"));
         
         // update current user record
         currentUser.name = Name;
         currentUser.email = Email;
-        userRecords[currentUser.id].name = Name;
-        userRecords[currentUser.id].email = Email;
-
-        /* Whoops */
-        // userRecords.map((user) => {
-        //     if (user.id == currentUser.id){
-        //         user.email = Email;
-        //         user.name = Name;
-        //         return user
-        //     } else {
-        //         return user
-        //     }
-        // })
-        
+        // localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
         // post to backend
-        localStorage.setItem('users', JSON.stringify(userRecords));
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        UserRepo.updateUser(currentUser);
+        
         handleEdit();
     } 
 

@@ -18,6 +18,7 @@ exports.one = async (req, res) => {
 
 // Update one user from the database.
 exports.update = async (req, res) => {
+  console.log("updating user")
   const user = await db.user.findByPk(req.params.id);
 
   user.set({
