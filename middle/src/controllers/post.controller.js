@@ -13,11 +13,23 @@ exports.all = async (req, res) => {
   res.json(posts);
 };
 
+//
+exports.root = async (req, res) => {
+  const posts = await db.post.findAll({
+    where: {
+      parent: null //this isn't implemented
+    }
+  });
+
+  res.json(posts);
+};
+
 // Create a post in the database.
 exports.create = async (req, res) => {
   const post = await db.post.create({
-    text: req.body.text,
-    username: req.body.username
+    body: req.body.body,
+    timestamp: req.body.timestamp,
+    imageURL: req.body.imageURL
   });
 
   res.json(post);
