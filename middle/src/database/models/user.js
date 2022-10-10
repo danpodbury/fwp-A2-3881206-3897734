@@ -1,9 +1,14 @@
 // this file was taken from week 8 lab
 module.exports = (sequelize, DataTypes) =>
   sequelize.define("user", {
+    user_id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
     email: {
       type: DataTypes.STRING(32),
-      primaryKey: true
+      allowNull: false
     },
     password_hash: {
       type: DataTypes.STRING(96),

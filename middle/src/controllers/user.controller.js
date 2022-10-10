@@ -16,6 +16,19 @@ exports.one = async (req, res) => {
   res.json(user);
 };
 
+// Update one user from the database.
+exports.update = async (req, res) => {
+  const user = await db.user.findByPk(req.params.id);
+
+  user.set({
+    name: req.body.name,
+    email: req.body.email
+  });
+  await user.save();
+
+  res.json(user);
+};
+
 // Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
   const user = await db.user.findByPk(req.query.email);

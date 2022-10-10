@@ -8,6 +8,9 @@ module.exports = (express, app) => {
   
     // Select a single user with id.
     router.get("/select/:id", controller.one);
+
+    // Select a single user with id.
+    router.patch("/update/:id", controller.update);
   
     // Select one user from the database if username and password are a match.
     router.get("/login", controller.login);

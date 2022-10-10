@@ -10,14 +10,14 @@ function updateUser(currentUser){
     return localStorage.setItem("currentUser",JSON.stringify(currentUser));
 }
 
-// [POST] Create
+// [POST] Create new User
 export async function registerUser(user){
     const response = await axios.post(API_HOST + "/api/users", user);
     
     return response.data;
 }
 
-// Read
+// [GET] Return a specific user
 export async function getUserById(id){
     const response = await axios.get(API_HOST + `/api/users/select/${id}`);
     const user = response.data;
