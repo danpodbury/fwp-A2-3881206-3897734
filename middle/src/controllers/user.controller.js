@@ -31,10 +31,13 @@ exports.update = async (req, res) => {
 
 // Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
-  const user = await db.user.findByPk(req.query.email);
+  const user = await db.user.findOne({
+    where: {
+      email: req.query.email
+    }
+  });
 
   // console.log(`pw: ${req.query.password}`)
-  // console.log(`hash: ${req.query.password_hash}`)
   // let good =  await argon2.verify(user.password_hash, req.query.password);
   // console.log(`legit: ${good}`)
 
