@@ -4,7 +4,7 @@ import {useState} from 'react';
 import useInput from './hooks/useInput';
 import { ConfirmationModal } from './Modal';
 import NotAuthorized from './NotAuth';
-import UserPosts from './UserPosts';
+//import UserPosts from './UserPosts';
 import * as UserRepo from './repository/User';
 import * as TimelineRepo from './repository/Timeline';
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ function Profile() {
         window.location.reload();
     }
 
-    const userDetails = JSON.parse(localStorage.getItem("currentUser"));
+    //const userDetails = JSON.parse(localStorage.getItem("currentUser"));
 
     // Render
     return (
