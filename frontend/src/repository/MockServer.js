@@ -35,6 +35,9 @@ export const getMockServer = () => {
             return res(ctx.json({greeting: 'hello there'}))
         }),
         
+        rest.delete(base_url+'/users/remove/:id', (req, res, ctx) => {
+            return res(ctx.json({greeting: 'goodbyeee'}))
+        }),
     )
 }
 

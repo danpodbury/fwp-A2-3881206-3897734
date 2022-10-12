@@ -66,3 +66,17 @@ exports.create = async (req, res) => {
 
   res.json(user);
 };
+
+// Create a user in the database.
+exports.destroy = async (req, res) => {
+  
+  // TODO: remove related posts
+  // not sure how to do this atm
+
+  const user = await db.user.findByPk(req.params.id);
+  if (user) {
+    user.destroy()
+  }
+
+  res.json(user);
+};

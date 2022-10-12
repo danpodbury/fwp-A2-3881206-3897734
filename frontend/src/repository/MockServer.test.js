@@ -14,7 +14,7 @@ afterEach(() => {
     server.close()
 })
 
-test('Update one', async () => {
+test('Update one user', async () => {
     let response = await axios.get(API_HOST + `/api/users/select/2`);
 
     let user = response.data
@@ -30,13 +30,13 @@ test('Update one', async () => {
     response = await axios.get(API_HOST + `/api/users/`);
 });
 
-test('Get all', async () => {
+test('Get all users', async () => {
     let response = await axios.get(API_HOST + `/api/users/`);
 
     expect(response.data).toMatchObject(getMockDatabase().users)
 });
 
-test('Get one', async () => {
+test('Get one user', async () => {
     let response = await axios.get(API_HOST + `/api/users/select/2`);
 
     let user = getMockDatabase().users.find( u => u.user_id === 2)
@@ -44,3 +44,18 @@ test('Get one', async () => {
     expect(response.data).toMatchObject(user)
 });
 
+test('Post new user', async () => {
+    let response = await axios.post(API_HOST + `/api/users/select/2`);
+
+    let user = getMockDatabase().users.find( u => u.user_id === 2)
+
+    expect(response.data).toMatchObject(user)
+});
+
+test('Delete existing user', async () => {
+    let response = await axios.delete(API_HOST + `/api/users/2`);
+
+    let user = getMockDatabase().users.find( u => u.user_id === 2)
+
+    expect(response.data).toMatchObject(user)
+});
