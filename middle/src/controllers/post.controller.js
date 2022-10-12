@@ -13,12 +13,45 @@ exports.all = async (req, res) => {
   res.json(posts);
 };
 
+// Select one post from the database.
+exports.one = async (req, res) => {
+  const post = await db.post.findByPk(req.params.id);
+
+  res.json(post);
+};
+
+// Update one post from the database.
+exports.update = async (req, res) => {
+  const post = await db.post.findByPk(req.params.id);
+
+  post.set({
+    body: req.body.body,
+    imageURL: req.body.imageURL
+  });
+  await post.save();
+
+  res.json(post);
+};
+
 // Create a post in the database.
 exports.create = async (req, res) => {
   const post = await db.post.create({
     text: req.body.text,
     username: req.body.username
   });
+
+  res.json(post);
+};
+
+// Create a user in the database.
+exports.destroy = async (req, res) => {
+  
+  // TODO: how do we handle parents and child posts?
+
+  const post = await db.post.findByPk(req.params.id);
+  if (post) {
+    post.destroy()
+  }
 
   res.json(post);
 };

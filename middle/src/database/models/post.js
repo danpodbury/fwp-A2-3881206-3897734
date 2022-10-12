@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) =>
       primaryKey: true
     },
     body: {
-      type: DataTypes.TEXT, //TODO: RICH TEXT can't remember the type
+      type: DataTypes.TEXT, //TODO: set DataTypes to (RICH TEXT?) can't remember the type
       allowNull: false
     },
     timestamp: {

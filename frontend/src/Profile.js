@@ -4,7 +4,7 @@ import {useState} from 'react';
 import useInput from './hooks/useInput';
 import { ConfirmationModal } from './Modal';
 import NotAuthorized from './NotAuth';
-//import UserPosts from './UserPosts';
+import UserPosts from './UserPosts';
 import * as UserRepo from './repository/User';
 import * as TimelineRepo from './repository/Timeline';
 import { useNavigate } from "react-router-dom";
@@ -38,8 +38,7 @@ function Profile() {
         window.location.reload();
     }
 
-    //const userDetails = JSON.parse(localStorage.getItem("currentUser"));
-
+    const userDetails = JSON.parse(localStorage.getItem("currentUser"));
     // Render
     return (
         <>
@@ -58,7 +57,7 @@ function Profile() {
                 </div>
                 <div className="form-container" style={{"width":"80%"}}>
                     My Posts
-                    {/*<UserPosts userId={userDetails.id}/>*/}
+                    <UserPosts userId={userDetails.user_id}/>
                 </div>
             </header>
             </div>
@@ -76,14 +75,14 @@ function StaticProfile({handleEdit}){
 
     // Render
     return (
-    <div>
+    <div data-testid="container-StaticProfile">
         <div style={{"fontSize":"14pt","padding":"20px 0px"}}>
             <label>Name: {userDetails.name}</label>
             <div>Email: {userDetails.email}</div>
             <div>Join date: {date.toLocaleTimeString()} {date.toLocaleDateString()}</div>
         </div>
         <div>
-            <button type="button" className="btn btn-primary" onClick={handleEdit}>Edit Details</button>
+            <button type="button" className="btn btn-primary" onClick={handleEdit} data-testid="btn-edit">Edit Details</button>
         </div>
     </div>
     );
@@ -100,49 +99,36 @@ function EditProfile({handleEdit}){
     // Update localStorage on submit
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        alert(`Updating Name => ${Name} \n Email => ${Email}`);
+        //alert(`Updating Name => ${Name} \n Email => ${Email}`);
 
         // get user records
-        var userRecords = JSON.parse(localStorage.getItem("users"));
+        //var userRecords = JSON.parse(localStorage.getItem("users"));
         
         // update current user record
         currentUser.name = Name;
         currentUser.email = Email;
-        userRecords[currentUser.id].name = Name;
-        userRecords[currentUser.id].email = Email;
-
-        /* Whoops */
-        // userRecords.map((user) => {
-        //     if (user.id == currentUser.id){
-        //         user.email = Email;
-        //         user.name = Name;
-        //         return user
-        //     } else {
-        //         return user
-        //     }
-        // })
-        
+        // localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
         // post to backend
-        localStorage.setItem('users', JSON.stringify(userRecords));
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        UserRepo.updateUser(currentUser);
+        
         handleEdit();
     } 
 
     // Render
     return (
-    <div style={{"fontSize":"14pt","padding":"20px 0px"}} >
+    <div style={{"fontSize":"14pt","padding":"20px 0px"}} data-testid="container-EditProfile">
         <form onSubmit={handleSubmit}>
             <div className="mb-8">
                 <label htmlFor="exampleInputName" className="form-label">Name</label>
-                <input className="form-control" type="text" {...bindName} />
+                <input className="form-control" type="text" {...bindName}  data-testid="form-name"/>
             </div>
             <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                <input className="form-control" type="email" {...bindEmail} />
+                <input className="form-control" type="email" {...bindEmail} data-testid="form-email" />
             </div>
             <button type="button" className="btn btn-secondary" onClick={handleEdit}>Cancel</button>
-            <button type="submit" className="btn btn-primary">Update</button>
+            <button type="submit" className="btn btn-primary" data-testid="btn-update">Update</button>
         </form>
     </div>
     );

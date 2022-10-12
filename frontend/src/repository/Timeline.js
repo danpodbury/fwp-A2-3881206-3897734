@@ -8,52 +8,63 @@ const API_HOST = "http://localhost:4000";
 
 // Create
 export async function addPost(post){
-    const response = await axios.post(API_HOST + "/api/posts", post);
+    const response = await axios.post(API_HOST + "/api/posts/", post);
 
     return response.data;
 }
 
 // Read
 export async function getPostById(id){
-    const response = await axios.get(API_HOST + "/api/posts");
+    const response = await axios.get(API_HOST + "/api/posts/"+id);
 
     return response.data;
 }
 
 // Read
-export function getRootPosts(){
-    // TODO: get posts, filter by no parent
+export async function getRootPosts(){
+    // TODO : test
+    const response = await axios.get(API_HOST + "/api/posts/");
+    if(response.data !== null) {
+        return response.data.filter(p => p.parent_id === null)
+    } else {
+        return null
+    }
 }
 
 // Read
-export function getUserPostsById(userId){
-    // TODO : get posts where email == userId
+export async function getUserPostsById(userId){
+    // TODO : test
+    const response = await axios.get(API_HOST + "/api/posts/");
+
+    if(response.data !== null) {
+        return response.data.filter(p => p.user_id === userId)
+    } else {
+        return null
+    }
 }
 
 
 // Read 
-export function getPostsByParentId(id){
-    // var timeline = retrieveTimeline();
+export async function getPostsByParentId(id){
+    // TODO : test
+    const response = await axios.get(API_HOST + "/api/posts/");
 
-    // var parent = getPostById(id)
-
-    // var children = []
-    // timeline.forEach((p) => {
-    //     if (parent.childIDs.includes(p.post_id)){
-    //         children.push(p)
-    //     }
-    // });
-    // updateTimeline(timeline);
-
-    // return children
+    if(response.data !== null) {
+        return response.data.filter(p => p.parent_id === id)
+    } else {
+        return null
+    }
 }
 
 // Update
-export function updatePostById(id, modifiedPost){
-    // // replace existing post at (id) with modified post
-    // var timeline = retrieveTimeline();
-    // timeline = timeline.map((p) => { return (p.post_id === id) ? modifiedPost: p});
-    // updateTimeline(timeline);
+export async function updatePostById(id, modifiedPost){
+    // TODO : test
+    const response = await axios.patch(API_HOST + "/api/posts/" + id, modifiedPost);
+    if(response.data !== null) {
+        return response.data
+    } else {
+        return null
+    }
 }
 
 //Delete (redact or remove completely)
@@ -77,24 +88,12 @@ export function redactPostById(postId){
 }
 
 //Delete (remove completely)
-export function deletePostById(postId){
-    // var parentId = getPostById(postId).parentID
-
-    // // Filter this post out
-    // var timeline = retrieveTimeline();
-    // timeline = timeline.filter((p) => { return p.post_id !== postId });
-    // updateTimeline(timeline);
- 
-    // // Sever link with parent if it exists
-    // if (parentId != null){
-
-    //     // locate parent
-    //     var parent = getPostById(parentId)
-
-    //     // remove reference to child
-    //     parent.childIDs.splice(parent.childIDs.indexOf(postId), 1);
-
-    //     // update parent 
-    //     updatePostById(parentId, parent)
-    // }
+export async function deletePostById(postId){
+    // TODO : test
+    const response = await axios.delete(API_HOST + "/api/posts/" + postId);
+    if(response.data !== null) {
+        return response.data
+    } else {
+        return null
+    }
 }

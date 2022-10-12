@@ -59,7 +59,7 @@ function Comment(props) {
 
     // Render
     return (<>    
-    <div className='comment' style={{"marginLeft":margin}} >
+    <div className='comment' style={{"marginLeft":margin}} data-testid="comment">
         <div className='comment-icon'>
             <img src={logo} alt="logo" />
         </div>

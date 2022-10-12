@@ -16,14 +16,27 @@ exports.one = async (req, res) => {
   res.json(user);
 };
 
+// Update one user from the database.
+exports.update = async (req, res) => {
+  const user = await db.user.findByPk(req.params.id);
+
+  user.set({
+    name: req.body.name,
+    email: req.body.email
+  });
+  await user.save();
+
+  res.json(user);
+};
+
 // Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
-  const user = await db.user.findByPk(req.query.email);
+  const user = await db.user.findOne({
+    where: {
+      email: req.query.email
+    }
+  });
 
-  // console.log(`pw: ${req.query.password}`)
-  // console.log(`hash: ${req.query.password_hash}`)
-  // let good =  await argon2.verify(user.password_hash, req.query.password);
-  // console.log(`legit: ${good}`)
 
   if(user === null || await argon2.verify(user.password_hash, req.query.password) === false){
     // Login failed.
@@ -46,6 +59,20 @@ exports.create = async (req, res) => {
     name: req.body.name,
     join_date: req.body.join_date
   });
+
+  res.json(user);
+};
+
+// Create a user in the database.
+exports.destroy = async (req, res) => {
+  
+  // TODO: remove related posts
+  // not sure how to do this atm
+
+  const user = await db.user.findByPk(req.params.id);
+  if (user) {
+    user.destroy()
+  }
 
   res.json(user);
 };

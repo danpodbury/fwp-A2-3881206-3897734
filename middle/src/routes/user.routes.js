@@ -8,12 +8,18 @@ module.exports = (express, app) => {
   
     // Select a single user with id.
     router.get("/select/:id", controller.one);
+
+    // Select a single user with id.
+    router.patch("/update/:id", controller.update);
   
     // Select one user from the database if username and password are a match.
     router.get("/login", controller.login);
   
     // Create a new user.
     router.post("/", controller.create);
+
+    // Delete an existing user.
+    router.delete("/remove/:id", controller.destroy);
   
     // Add routes to server.
     app.use("/api/users", router);
