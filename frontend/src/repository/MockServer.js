@@ -3,13 +3,10 @@ import {setupServer} from 'msw/node'
 
 // https://testing-library.com/docs/react-testing-library/example-intro/#mock
 
-export const getMockServer = (db) => {
+export const getMockServer = () => {
     let base_url = 'http://localhost:4000/api'
 
-    // get default mockc db if none provided
-    if (db === undefined){
-        db = getMockDatabase()
-    }
+    let db = getMockDatabase();
 
     // Define mock endpoints
     return setupServer(
@@ -22,8 +19,12 @@ export const getMockServer = (db) => {
         }),
 
         rest.patch(base_url+'/users/update/:id', (req, res, ctx) => {
-            // todo: update store
-            return res(ctx.json(req.body))
+            //update user record
+            db.users = db.users.map( u => {
+                return u.user_id === parseInt(req.params.id) ? req.body : u;
+            })
+
+            return res( ctx.json( db.users.find( u => u.user_id === parseInt(req.params.id)) ))
         }),
 
         rest.get(base_url+'/users/login', (req, res, ctx) => {

@@ -1,15 +1,34 @@
 import { getMockServer, getMockDatabase } from './MockServer';
 import axios from "axios";
 
-const server = getMockServer();
+//const server = getMockServer();
 const API_HOST = "http://localhost:4000";
 
-beforeAll(() => {
+let server = null
+
+beforeEach(() => {
+    server = getMockServer();
     server.listen()
 })
-afterAll(() => {
+afterEach(() => {
     server.close()
 })
+
+test('Update one', async () => {
+    let response = await axios.get(API_HOST + `/api/users/select/2`);
+
+    let user = response.data
+    user.name = "Bobby"
+
+    response = await axios.patch(API_HOST + `/api/users/update/${user.user_id}`, user);
+
+    response = await axios.get(API_HOST + `/api/users/select/2`);
+    let newUser = response.data
+
+    expect(newUser).toMatchObject(user)
+
+    response = await axios.get(API_HOST + `/api/users/`);
+});
 
 test('Get all', async () => {
     let response = await axios.get(API_HOST + `/api/users/`);
@@ -25,16 +44,3 @@ test('Get one', async () => {
     expect(response.data).toMatchObject(user)
 });
 
-test('Update one', async () => {
-    let response = await axios.get(API_HOST + `/api/users/select/2`);
-
-    let user = response.data
-    user.name = "Bobby"
-
-    response = await axios.patch(API_HOST + `/api/users/update/${user.user_id}`, user);
-
-    response = await axios.get(API_HOST + `/api/users/select/2`);
-    let newUser = response.data
-
-    expect(newUser).toMatchObject(user)
-});
