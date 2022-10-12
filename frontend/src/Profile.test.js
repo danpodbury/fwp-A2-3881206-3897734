@@ -24,7 +24,6 @@ afterEach(()=>{
 })
 
 test('Profile Loads', () => {
-
     render(
         <BrowserRouter>
             <Profile />
@@ -40,7 +39,6 @@ test('Profile Loads', () => {
 });
 
 test('Profile update info', async () => {
-
     render(
         <BrowserRouter>
             <Profile />
@@ -85,3 +83,18 @@ test('Profile update info', async () => {
     expect(response.data.email).toBe('name@example.com');
 });
 
+test('Correct user posts display', async () => {
+    render(
+        <BrowserRouter>
+            <Profile />
+        </BrowserRouter>
+    );
+
+    let posts = getMockDatabase().posts.filter(p => p.user_id === 1)
+    
+    expect(posts.length).toBe(2)
+
+    let comments = screen.queryByTestId("comment")
+    expect(comments).toHaveLength(2) 
+
+});

@@ -8,14 +8,14 @@ const API_HOST = "http://localhost:4000";
 
 // Create
 export async function addPost(post){
-    const response = await axios.post(API_HOST + "/api/posts", post);
+    const response = await axios.post(API_HOST + "/api/posts/", post);
 
     return response.data;
 }
 
 // Read
 export async function getPostById(id){
-    const response = await axios.get(API_HOST + "/api/posts");
+    const response = await axios.get(API_HOST + "/api/posts/"+id);
 
     return response.data;
 }
@@ -26,8 +26,15 @@ export function getRootPosts(){
 }
 
 // Read
-export function getUserPostsById(userId){
-    // TODO : get posts where email == userId
+export async function getUserPostsById(userId){
+    // TODO : test
+    const response = await axios.get(API_HOST + "/api/posts/");
+
+    if(response.data !== null) {
+        return response.data.filter(p => p.user_id === userId)
+    } else {
+        return null
+    }
 }
 
 
