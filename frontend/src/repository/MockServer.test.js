@@ -45,17 +45,25 @@ test('Get one user', async () => {
 });
 
 test('Post new user', async () => {
-    let response = await axios.post(API_HOST + `/api/users/select/2`);
+    let newUser = {"user_id":-1, "email":"peter@email.com",  "password_hash":"$argon2fakehash_peter", "name":"Peter", "join_date":null}
 
-    let user = getMockDatabase().users.find( u => u.user_id === 2)
+    let response = await axios.post(API_HOST + `/api/users/`, newUser);
 
-    expect(response.data).toMatchObject(user)
+    response = await axios.get(API_HOST + `/api/users/`);
+    let user = response.data.find( u => u.email === "peter@email.com")
+
+    newUser.user_id = user.user_id
+
+    expect(user).toMatchObject(newUser)
 });
 
 test('Delete existing user', async () => {
-    let response = await axios.delete(API_HOST + `/api/users/2`);
+    await axios.delete(API_HOST + `/api/users/remove/2`);
 
-    let user = getMockDatabase().users.find( u => u.user_id === 2)
+    let users = getMockDatabase().users.filter( u => u.user_id !== 2)
 
-    expect(response.data).toMatchObject(user)
+    let response = await axios.get(API_HOST + `/api/users/`);
+    let newUsers = response.data.filter( u => u.user_id !== 2)
+
+    expect(newUsers).toMatchObject(users)
 });

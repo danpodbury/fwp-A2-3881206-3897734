@@ -32,11 +32,16 @@ export const getMockServer = () => {
         }),
 
         rest.post(base_url+'/users/', (req, res, ctx) => {
-            return res(ctx.json({greeting: 'hello there'}))
+            let max_id = db.users[db.users.length - 1].user_id
+            let user = req.body
+            user.user_id = max_id + 1
+            db.users.push(user)
+            return res(ctx.json(user))
         }),
-        
+
         rest.delete(base_url+'/users/remove/:id', (req, res, ctx) => {
-            return res(ctx.json({greeting: 'goodbyeee'}))
+            db.users = db.users.filter(u => { return u.user_id !== req.params.id });
+            return res(ctx.json())
         }),
     )
 }
