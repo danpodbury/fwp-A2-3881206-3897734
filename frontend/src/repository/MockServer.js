@@ -54,7 +54,9 @@ export const getMockDatabase = () => {
         {"user_id":4, "email":"dan@email.com",    "password_hash":"$argon2fakehash_dan",   "name":"Dan",   "join_date":null}
     ]
 
-    let posts = []
+    let posts = [
+        
+    ]
 
     return {"users":users, "posts": posts}
 }
