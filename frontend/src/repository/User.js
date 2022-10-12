@@ -40,6 +40,7 @@ export async function updateUser(user){
     //save user to local    
     if(user !== null) {
         updateLocalUser(newuser)
+        console.log(`reponse: ${JSON.stringify(response)}`)
         return response.data;
     } else {
         return null
