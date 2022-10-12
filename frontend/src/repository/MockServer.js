@@ -3,6 +3,24 @@ import {setupServer} from 'msw/node'
 
 // https://testing-library.com/docs/react-testing-library/example-intro/#mock
 
+export const getMockDatabase = () => {
+    let users = [
+        {"user_id":1, "email":"alice@email.com",  "password_hash":"$argon2fakehash_alice", "name":"Alice", "join_date":null},
+        {"user_id":2, "email":"bob@email.com",    "password_hash":"$argon2fakehash_bob",   "name":"Bob",   "join_date":null},
+        {"user_id":3, "email":"oliver@email.com", "password_hash":"$argon2fakehash_oliver","name":"Oliver","join_date":null},
+        {"user_id":4, "email":"dan@email.com",    "password_hash":"$argon2fakehash_dan",   "name":"Dan",   "join_date":null}
+    ]
+
+    let posts = [
+        {"post_id":1, "user_id": 1, "body":"hello this is my first post",  "imageURL": null, "timestamp":null, "parent_id":null, "children_ids":null},
+        {"post_id":2, "user_id": 1, "body":"hello this is my second post", "imageURL": null, "timestamp":null, "parent_id":1, "children_ids":null},
+        {"post_id":3, "user_id": 3, "body":"root post",                    "imageURL": null, "timestamp":null, "parent_id":null, "children_ids":null},
+        {"post_id":4, "user_id": 4, "body":"reply",                        "imageURL": null, "timestamp":null, "parent_id":3, "children_ids":null}
+    ]
+
+    return {"users":users, "posts": posts}  
+}
+
 export const getMockServer = () => {
     let base_url = 'http://localhost:4000/api'
 
@@ -88,20 +106,3 @@ export const getMockServer = () => {
     )
 }
 
-export const getMockDatabase = () => {
-    let users = [
-        {"user_id":1, "email":"alice@email.com",  "password_hash":"$argon2fakehash_alice", "name":"Alice", "join_date":null},
-        {"user_id":2, "email":"bob@email.com",    "password_hash":"$argon2fakehash_bob",   "name":"Bob",   "join_date":null},
-        {"user_id":3, "email":"oliver@email.com", "password_hash":"$argon2fakehash_oliver","name":"Oliver","join_date":null},
-        {"user_id":4, "email":"dan@email.com",    "password_hash":"$argon2fakehash_dan",   "name":"Dan",   "join_date":null}
-    ]
-
-    let posts = [
-        {"post_id":1, "user_id": 1, "body":"hello this is my first post",  "imageURL": null, "timestamp":null, "parent_id":null, "children_ids":null},
-        {"post_id":2, "user_id": 1, "body":"hello this is my second post", "imageURL": null, "timestamp":null, "parent_id":1, "children_ids":null},
-        {"post_id":3, "user_id": 3, "body":"root post",                    "imageURL": null, "timestamp":null, "parent_id":null, "children_ids":null},
-        {"post_id":4, "user_id": 4, "body":"reply",                        "imageURL": null, "timestamp":null, "parent_id":3, "children_ids":null}
-    ]
-
-    return {"users":users, "posts": posts}  
-}

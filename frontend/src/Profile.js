@@ -39,7 +39,6 @@ function Profile() {
     }
 
     const userDetails = JSON.parse(localStorage.getItem("currentUser"));
-    console.log("==========================")
     // Render
     return (
         <>
@@ -58,7 +57,7 @@ function Profile() {
                 </div>
                 <div className="form-container" style={{"width":"80%"}}>
                     My Posts
-                    <UserPosts userId={userDetails.id}/>
+                    <UserPosts userId={userDetails.user_id}/>
                 </div>
             </header>
             </div>

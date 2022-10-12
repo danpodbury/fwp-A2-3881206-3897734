@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import Profile from './Profile';
 import {BrowserRouter} from "react-router-dom";
 import axios from "axios";
@@ -24,11 +25,13 @@ afterEach(()=>{
 })
 
 test('Profile Loads', () => {
+
     render(
         <BrowserRouter>
             <Profile />
         </BrowserRouter>
     );
+
 
     // are the form fields rendered?
     expect(screen.getByTestId("container-StaticProfile")).toBeInTheDocument();

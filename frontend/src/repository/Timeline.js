@@ -29,7 +29,7 @@ export function getRootPosts(){
 export async function getUserPostsById(userId){
     // TODO : test
     const response = await axios.get(API_HOST + "/api/posts/");
-
+    //console.log(response)
     if(response.data !== null) {
         return response.data.filter(p => p.user_id === userId)
     } else {
