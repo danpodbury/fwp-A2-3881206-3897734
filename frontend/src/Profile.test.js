@@ -1,31 +1,24 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Profile from './Profile';
 import {BrowserRouter} from "react-router-dom";
+import axios from "axios";
 
-//import * as UserRepo from './repository/User';
-// import * as TimelineRepo from './repository/Timeline';
+import { getMockServer, getMockDatabase } from './repository/MockServer';
+let server = null
 
-import { getMockServer } from './repository/MockServer';
-const server = getMockServer();
+const API_HOST = "http://localhost:4000";
 
-// Setup all tests
-beforeAll(() => {
-    // Establish requests interception layer before all tests.
-    server.listen()
-})
-afterAll(() => {
-    // Clean up after all tests are done, preventing this
-    // interception layer from affecting irrelevant tests.
-    server.close()
-})
-
-// Setup each test
+// Setup and packdown each test
 beforeEach(()=>{
+    server = getMockServer();
+    server.listen()
+
     localStorage.setItem("isLoggedIn","true");
-    localStorage.setItem("currentUser",
-    '{"user_id":1,"email":"test@email.com","password_hash":"$argon2fakehash_test","name":"Tester","join_date":null}');
+    localStorage.setItem("currentUser",JSON.stringify(getMockDatabase().users[0]));
 })
 afterEach(()=>{
+    server.close()
+    
     localStorage.setItem("isLoggedIn","false");
     localStorage.setItem("currentUser",'{}');
 })
@@ -41,55 +34,54 @@ test('Profile Loads', () => {
     // are the form fields rendered?
     expect(screen.getByTestId("container-StaticProfile")).toBeInTheDocument();
 
-    const profile_name = screen.getByText("Name: Tester");
+    const profile_name = screen.getByText("Name: Alice");
     expect(profile_name).toBeInTheDocument();
 
 });
 
-// test('Profile update info', () => {
+test('Profile update info', async () => {
 
-//     render(
-//         <BrowserRouter>
-//             <Profile />
-//         </BrowserRouter>
-//     );
+    render(
+        <BrowserRouter>
+            <Profile />
+        </BrowserRouter>
+    );
 
-//     // confirm static profile page state
-//     expect(screen.getByTestId("container-StaticProfile")).toBeInTheDocument();
-//     expect(screen.getByTestId("btn-edit")).toBeInTheDocument();
+    // confirm static profile page state
+    expect(screen.getByTestId("container-StaticProfile")).toBeInTheDocument();
+    expect(screen.getByTestId("btn-edit")).toBeInTheDocument();
 
-//     // navigate to profile edit view
-//     fireEvent(
-//         screen.getByTestId("btn-edit"),
-//         new MouseEvent('click', {
-//           bubbles: true,
-//           cancelable: true,
-//         }),
-//       )
+    // navigate to profile edit view
+    fireEvent(
+        screen.getByTestId("btn-edit"),
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+        }),
+      )
 
-//     // confirm edit profile page state
-//     expect(screen.getByTestId("container-EditProfile")).toBeInTheDocument();
-//     expect(screen.getByTestId("form-name")).toBeInTheDocument();
-//     expect(screen.getByTestId("form-email")).toBeInTheDocument();
-//     expect(screen.getByTestId("btn-update")).toBeInTheDocument();
+    // confirm edit profile page state
+    expect(screen.getByTestId("container-EditProfile")).toBeInTheDocument();
+    expect(screen.getByTestId("form-name")).toBeInTheDocument();
+    expect(screen.getByTestId("form-email")).toBeInTheDocument();
+    expect(screen.getByTestId("btn-update")).toBeInTheDocument();
 
-//     // modify the form fields
-//     fireEvent.change(screen.getByTestId("form-name"), {target: {value: 'newName'}})
-//     fireEvent.change(screen.getByTestId("form-email"), {target: {value: 'name@example.com'}})
+    // modify the form fields
+    fireEvent.change(screen.getByTestId("form-name"), {target: {value: 'newName'}})
+    fireEvent.change(screen.getByTestId("form-email"), {target: {value: 'name@example.com'}})
 
-//     // navigate to profile edit view
-//     fireEvent(
-//         screen.getByTestId("btn-update"),
-//         new MouseEvent('click', {
-//             bubbles: true,
-//             cancelable: true,
-//         }),
-//         )
-
-
-//     let user = JSON.parse(localStorage.getItem("currentUser"));
+    // navigate to profile edit view
+    fireEvent(
+        screen.getByTestId("btn-update"),
+        new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+        }),
+        )
     
-//     expect(user.name).toBe("newName");
-//     expect(user.email).toBe('name@example.com');
-// });
+    let response = await axios.get(API_HOST + `/api/users/select/1`);
+
+    expect(response.data.name).toBe("newName");
+    expect(response.data.email).toBe('name@example.com');
+});
 

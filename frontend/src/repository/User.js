@@ -6,6 +6,7 @@ const API_HOST = "http://localhost:4000";
 
 // ------------------------------------------------------------------------------------------------
 
+
 function updateLocalUser(currentUser){
     return localStorage.setItem("currentUser",JSON.stringify(currentUser));
 }
@@ -33,14 +34,13 @@ export async function getUserById(id){
 
 // [PATCH] Update a specific user
 export async function updateUser(user){
-    console.log("updating user")
     const response = await axios.patch(API_HOST + `/api/users/update/${user.user_id}`, user);
     const newuser = response.data;
 
     //save user to local    
     if(user !== null) {
         updateLocalUser(newuser)
-        console.log(`reponse: ${JSON.stringify(response)}`)
+        //console.log(`reponse: ${JSON.stringify(response)}`)
         return response.data;
     } else {
         return null
