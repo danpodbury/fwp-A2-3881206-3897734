@@ -1,23 +1,52 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-// import {rest} from 'msw'
-// import {setupServer} from 'msw/node'
+import {rest} from 'msw'
+import {setupServer} from 'msw/node'
 import Profile from './Profile';
 import {BrowserRouter} from "react-router-dom";
 
-import * as UserRepo from './repository/User';
-import * as TimelineRepo from './repository/Timeline';
+// import * as UserRepo from './repository/User';
+// import * as TimelineRepo from './repository/Timeline';
 
 // https://testing-library.com/docs/react-testing-library/example-intro/#mock
-// const server = setupServer(
-//     rest.get('/greeting', (req, res, ctx) => {
-//         return res(ctx.json({greeting: 'hello there'}))
-//     }),
-// )
-
-test('Profile Loads', () => {
+let base = '/api/users'
+const server = setupServer(
+    rest.get(base+'/', (req, res, ctx) => {
+        return res(ctx.json({greeting: 'hello there'}))
+    }),
+    rest.get(base+'/select/:id', (req, res, ctx) => {
+        return res(ctx.json({greeting: 'hello there'}))
+    }),
+    rest.patch(base+'/update/:id', (req, res, ctx) => {
+        return res(ctx.json({greeting: 'hello there'}))
+    }),
+    rest.get(base+'/login', (req, res, ctx) => {
+        return res(ctx.json({greeting: 'hello there'}))
+    }),
+    rest.post(base+'/', (req, res, ctx) => {
+        return res(ctx.json({greeting: 'hello there'}))
+    }),
+    
+)
+beforeAll(() => {
+    // Establish requests interception layer before all tests.
+    server.listen()
+})
+beforeEach(()=>{
     localStorage.setItem("isLoggedIn","true");
     localStorage.setItem("currentUser",
-    '{"user_id":1,"email":"test@email.com","password_hash":"$argon2id$v=19$m=4096,t=3,p=1$B6F+d6C5VodOI8+V4iIN0A$7kruFkoQjlHauM5l7TVkC1QLLLm+dW57RxSex/rN9vI","name":"Tester","join_date":null}');
+    '{"user_id":1,"email":"test@email.com","password_hash":"$argon2fakehash","name":"Tester","join_date":null}');
+})
+afterAll(() => {
+    // Clean up after all tests are done, preventing this
+    // interception layer from affecting irrelevant tests.
+    server.close()
+})
+afterEach(()=>{
+    localStorage.setItem("isLoggedIn","false");
+    localStorage.setItem("currentUser",'{}');
+})
+
+test('Profile Loads', () => {
 
     render(
         <BrowserRouter>
@@ -35,18 +64,6 @@ test('Profile Loads', () => {
 });
 
 test('Profile update info', () => {
-    localStorage.setItem("isLoggedIn","true");
-    localStorage.setItem("currentUser",
-    '{"user_id":1,"email":"test@email.com","password_hash":"$argon2id$v=19$m=4096,t=3,p=1$B6F+d6C5VodOI8+V4iIN0A$7kruFkoQjlHauM5l7TVkC1QLLLm+dW57RxSex/rN9vI","name":"Tester","join_date":null}');
-
-    //intercept this function: UserRepo.updateUser(currentUser);
-    let repo_update = jest.spyOn(UserRepo, "updateUser").mockImplementation((arg) => {
-        localStorage.setItem("currentUser",JSON.stringify(arg));
-        return {"data":arg,
-                   "status":200,
-                   "statusText":"OK"
-                };
-        });
 
     render(
         <BrowserRouter>
@@ -86,7 +103,6 @@ test('Profile update info', () => {
         }),
         )
 
-    expect(repo_update).toHaveBeenCalledTimes(1)
 
     let user = JSON.parse(localStorage.getItem("currentUser"));
     
