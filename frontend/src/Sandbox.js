@@ -1,61 +1,57 @@
 // import { useState } from 'react';
 import './App.css';
 import './Posting.css';
+import User from './models/User';
+import { NavLink } from "react-router-dom";
+import "./Sandbox.css";
+import { useState } from "react"
+import { ConfirmationModal } from './Modal.js';
+var tempFollowingUsers = [];
+    tempFollowingUsers.push(new User(100,"Dave","","","10/10/2020"));
+    tempFollowingUsers.push(new User(101,"Nick","","","10/11/2020"));
+    tempFollowingUsers.push(new User(102,"Sarah","","","1/10/2020"));
+    tempFollowingUsers.push(new User(103,"Alyssa","","","2/1/2019"));
+    tempFollowingUsers.push(new User(104,"Bruce","","","4/12/2021"));
 // import FileUploader from './FileUploader'
 // import axios from 'axios';
 
 function Sandbox() {
-
-    // const [selectedFile, setSelectedFile] = useState(null);
-
-    // function submitForm(event){
-    //     event.preventDefault()
-
-    //     console.log("yeeting file to be uploaded")
-
-    //     const formData = new FormData();
-    //     formData.append("image", selectedFile);
-      
-    //     const super_secret_api_key = "d893acba030fb10633893068fb1d5783"
-
-    //     axios
-    //       .post(`https://api.imgbb.com/1/upload?expiration=600&key=${super_secret_api_key}`, formData)
-    //       .then((res) => {
-    //         alert("File Upload success");
-    //         console.log(res.data.data.display_url);
-    //         console.log(res.data.data.delete_url);
-
-    //       })
-    //       .catch((err) => alert("File Upload Error"));
-    // }
-
-    // return (
-    //     <div className="App">
-    //         <header className="App-header">
-    //         <form>
-
-    //             <FileUploader
-    //                 onFileSelectSuccess={(file) => setSelectedFile(file)}
-    //                 onFileSelectError={({ error }) => alert(error)}
-    //             />
-
-    //             <button onClick={submitForm} className="btn btn-success">Submit</button>
-    //         </form>
-
-    //       </header>
-    //     </div>
-    // );
-
+    //For testing purposes, will need to properly implement later
+    //TODO: connect to backend
+    
+    //const [modal,setModal] = useState();
+    const [followingUsers, setFollowingUsers] = useState(tempFollowingUsers);
+    
+    const unFollowUser = (id) =>{
+      //setModal({visible: true, body: "Are you sure you want to unfollow this user?", onConfirm: ()=>(null), confirmText: "Ok"})
+      setFollowingUsers(followingUsers.filter(item => item.getId() !== parseInt(id))); 
+    }
+    
 
     return (
-      <div className="App">
-      <header className="App-header">
-      <form>
-        <input type="email" placeholder='ahhhhh' required minLength={8} ></input>
-        <input type="password" placeholder='ahhhhh' required pattern=''></input>
-        <button type="submit" className='btn btn-primary'>Submit</button>
-      </form>
-      </header>
+      <div>
+        <br/><br/><br/>
+        <table className="table table-hover rightaAlignTableData">
+          <thead>
+            <tr>
+              <th scope="col">Users you are following:</th>
+            </tr>
+          </thead>
+          <tbody>
+        {followingUsers.length > 0 ? 
+        followingUsers.map((user)=>(
+            <tr key={user.getId()}>
+              <th scope="row"><NavLink to={`/user/${user.getId()}`} className="btn btn-lg btn-primary">{user.getName()}</NavLink></th>
+              <td><ConfirmationModal onConfirm={()=>unFollowUser(user.getId())} buttonText="Unfollow User" body={`Are you sure you want to unfollow ${user.getName()}?`} confirmText="Unfollow"/></td>
+            </tr>
+        ))
+    :
+            <tr>
+              <th style={{textAlign: "center"}}>You are not currently following anyone!</th>
+            </tr>
+    }
+          </tbody>
+        </table>
       </div>
     );
 }
