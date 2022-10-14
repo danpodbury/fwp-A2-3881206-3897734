@@ -17,9 +17,17 @@ db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
 
 // Relate post and user.
+//Old relationship v
+/*
 db.post.belongsTo(db.user, { foreignKey: { name: "email", allowNull: false } });
 db.post.belongsTo(db.post, { foreignKey: { name: "children", allowNull: false } });
 db.post.hasMany(db.post, { foreignKey: { name: "parent", allowNull: true } });
+*/
+//New relationship v
+db.post.belongsTo(db.user, { foreignKey: { name: "email", allowNull: false } });
+db.post.belongsTo(db.post, { foreignKey: { name: "parent", allowNull: true } });
+db.post.hasMany(db.post, { foreignKey: { name: "children", allowNull: true } });
+
 // I think the above is right
 // https://sequelize.org/docs/v6/core-concepts/assocs/#one-to-many-relationships
 
