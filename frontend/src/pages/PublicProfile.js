@@ -1,12 +1,12 @@
-import './App.css';
+import '../App.css';
 import React, { useEffect } from 'react';
 import {useState} from 'react';
 // import useInput from './hooks/useInput';
 // import { ConfirmationModal } from './Modal';
-import NotAuthorized from './pages/NotAuth';
-import UserPosts from './UserPosts';
+import NotAuthorized from './NotAuth';
+import UserPosts from '../components/UserPosts';
 import { useParams } from 'react-router-dom';
-import * as UserRepo from './repository/User';
+import * as UserRepo from '../repository/User';
 import { useNavigate } from "react-router-dom";
 
 

@@ -3,7 +3,7 @@ import User from '../models/User';
 import { NavLink } from "react-router-dom";
 import "./Following.css";
 import { useState } from "react"
-import { ConfirmationModal } from '../Modal.js';
+import { ConfirmationModal } from '../components/Modal.js';
 
 //For testing purposes, will need to properly implement later
 //TODO: connect to backend

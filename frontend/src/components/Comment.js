@@ -1,10 +1,10 @@
-import './App.css';
-import './pages/Posting.css';
-import logo from './pizza-slice.svg';
+import '../App.css';
+import '../pages/Posting.css';
+import logo from '../pizza-slice.svg';
 import Reply from './Reply';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import * as TimelineRepo from './repository/Timeline';
+import * as TimelineRepo from '../repository/Timeline';
 
 function Comment(props) {
     

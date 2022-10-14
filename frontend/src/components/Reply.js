@@ -1,9 +1,9 @@
-import './App.css';
-import './pages/Posting.css';
+import '../App.css';
+import '../pages/Posting.css';
 // import logo from './pizza-slice.svg';
 // import Post from './models/Post';
 import { useNavigate } from 'react-router-dom';
-import useInput from './hooks/useInput';
+import useInput from '../hooks/useInput';
 
 
 function Reply(props) {

@@ -1,16 +1,15 @@
-import './App.css';
-import './pages/Posting.css';
+import '../App.css';
 
-function ErrorUser(props) {
+function Error(props) {
     // Render
     return (
     <div className="App">
         <header className="App-header">    
         <h1>404</h1>
-        This user no longer exists.
+        This content has been lost in the tide of uncertainty.
         </header>
     </div>
     );
 }
 
-export default ErrorUser;
+export default Error;

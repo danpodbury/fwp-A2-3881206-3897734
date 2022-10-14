@@ -1,4 +1,4 @@
-import * as TimelineRepo from './repository/Timeline';
+import * as TimelineRepo from '../repository/Timeline';
 import Comment from './Comment';
 import { useEffect, useState } from 'react';
 

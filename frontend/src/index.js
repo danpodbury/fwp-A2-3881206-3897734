@@ -10,9 +10,9 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Posting from './pages/Posting';
 import Sandbox from './pages/Sandbox';
-import Error from './Error';
-import ErrorUser from './ErrorUser';
-import PublicProfile from './PublicProfile';
+import Error from './components/Error';
+import ErrorUser from './components/ErrorUser';
+import PublicProfile from './pages/PublicProfile';
 
 import {
   BrowserRouter,

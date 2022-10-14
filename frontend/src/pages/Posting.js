@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import Post from '../models/Post';
 import NotAuthorized from './NotAuth';
-import Comment from '../Comment';
+import Comment from '../components/Comment';
 import * as TimelineRepo from '../repository/Timeline';
-import FileUploader from '../FileUploader'
+import FileUploader from '../components/FileUploader'
 import axios from 'axios';
 import { useState } from 'react';
 
