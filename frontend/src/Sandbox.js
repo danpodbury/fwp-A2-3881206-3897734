@@ -31,13 +31,13 @@ function Sandbox() {
     return (
       <div>
         <br/><br/><br/>
-        <table class="table table-hover rightaAlignTableData">
+        <table className="table table-hover rightaAlignTableData">
           <tbody>
         {followingUsers.length > 0 ? 
         
         
         followingUsers.map((user)=>(
-            <tr>
+            <tr key={user.getId}>
               <th scope="row"><NavLink to={`/user/${user.getId()}`} className="btn btn-lg btn-primary">{user.getName()}</NavLink></th>
               <td><ConfirmationModal onConfirm={()=>unFollowUser(user.getId())} buttonText="Unfollow User" body={`Are you sure you want to unfollow ${user.getName()}?`} confirmText="Unfollow"/></td>
             </tr>
