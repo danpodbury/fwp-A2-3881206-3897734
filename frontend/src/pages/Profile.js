@@ -1,12 +1,12 @@
-import './App.css';
+import '../App.css';
 import React from 'react';
 import {useState} from 'react';
-import useInput from './hooks/useInput';
-import { ConfirmationModal } from './Modal';
+import useInput from '../hooks/useInput';
+import { ConfirmationModal } from '../Modal';
 import NotAuthorized from './NotAuth';
-import UserPosts from './UserPosts';
-import * as UserRepo from './repository/User';
-import * as TimelineRepo from './repository/Timeline';
+import UserPosts from '../UserPosts';
+import * as UserRepo from '../repository/User';
+import * as TimelineRepo from '../repository/Timeline';
 import { useNavigate } from "react-router-dom";
 
 

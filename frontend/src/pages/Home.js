@@ -1,8 +1,8 @@
-import logo from './pizza-slice.svg';
+import logo from '../pizza-slice.svg';
 import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import './App.css'; 
+import '../App.css'; 
 
 function Home() {
   const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));

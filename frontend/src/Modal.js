@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import './Sandbox.js';
+import './pages/Sandbox.js';
 
 // Adapted from: https://react-bootstrap.github.io/components/modal/
 

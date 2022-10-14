@@ -1,5 +1,5 @@
 import './App.css';
-import './Posting.css';
+import './pages/Posting.css';
 
 function ErrorUser(props) {
     // Render

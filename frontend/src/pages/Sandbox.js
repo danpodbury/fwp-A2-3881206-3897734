@@ -1,11 +1,10 @@
 // import { useState } from 'react';
-import './App.css';
-import './Posting.css';
-import User from './models/User';
+import '../App.css';
+import User from '../models/User';
 import { NavLink } from "react-router-dom";
 import "./Sandbox.css";
 import { useState } from "react"
-import { ConfirmationModal } from './Modal.js';
+import { ConfirmationModal } from '../Modal.js';
 var tempFollowingUsers = [];
     tempFollowingUsers.push(new User(100,"Dave","","","10/10/2020"));
     tempFollowingUsers.push(new User(101,"Nick","","","10/11/2020"));

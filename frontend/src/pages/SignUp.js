@@ -1,10 +1,10 @@
-import './App.css';
+import '../App.css';
 import './Password.css';
 import React, { useEffect } from 'react';
-import useInput from './hooks/useInput';
-import User from './models/User';
+import useInput from '../hooks/useInput';
+import User from '../models/User';
 import { useNavigate } from 'react-router-dom';
-import * as UserRepo from './repository/User';
+import * as UserRepo from '../repository/User';
 
 import zxcvbn from 'zxcvbn';
 

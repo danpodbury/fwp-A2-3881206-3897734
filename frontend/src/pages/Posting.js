@@ -1,12 +1,12 @@
-import './App.css';
+import '../App.css';
 import './Posting.css';
 import { useNavigate } from 'react-router-dom';
-import useInput from './hooks/useInput';
-import Post from './models/Post';
+import useInput from '../hooks/useInput';
+import Post from '../models/Post';
 import NotAuthorized from './NotAuth';
-import Comment from './Comment';
-import * as TimelineRepo from './repository/Timeline';
-import FileUploader from './FileUploader'
+import Comment from '../Comment';
+import * as TimelineRepo from '../repository/Timeline';
+import FileUploader from '../FileUploader'
 import axios from 'axios';
 import { useState } from 'react';
 

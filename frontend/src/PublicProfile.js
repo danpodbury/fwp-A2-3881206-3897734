@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import {useState} from 'react';
 // import useInput from './hooks/useInput';
 // import { ConfirmationModal } from './Modal';
-import NotAuthorized from './NotAuth';
+import NotAuthorized from './pages/NotAuth';
 import UserPosts from './UserPosts';
 import { useParams } from 'react-router-dom';
 import * as UserRepo from './repository/User';

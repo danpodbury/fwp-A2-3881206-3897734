@@ -4,12 +4,12 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import App from './App';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
-import Home from './Home';
-import Profile from './Profile';
-import Posting from './Posting';
-import Sandbox from './Sandbox';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Posting from './pages/Posting';
+import Sandbox from './pages/Sandbox';
 import Error from './Error';
 import ErrorUser from './ErrorUser';
 import PublicProfile from './PublicProfile';

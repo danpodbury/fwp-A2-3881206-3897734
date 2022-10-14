@@ -1,5 +1,5 @@
 import './App.css';
-import './Posting.css';
+import './pages/Posting.css';
 import logo from './pizza-slice.svg';
 import Reply from './Reply';
 import { useState } from 'react';

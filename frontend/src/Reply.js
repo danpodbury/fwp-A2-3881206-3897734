@@ -1,5 +1,5 @@
 import './App.css';
-import './Posting.css';
+import './pages/Posting.css';
 // import logo from './pizza-slice.svg';
 // import Post from './models/Post';
 import { useNavigate } from 'react-router-dom';

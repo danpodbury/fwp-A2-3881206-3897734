@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import Profile from './Profile';
+import Profile from './pages/Profile';
 import {BrowserRouter} from "react-router-dom";
 import axios from "axios";
 
