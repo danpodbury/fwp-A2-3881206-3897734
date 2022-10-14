@@ -60,10 +60,6 @@ async function seedUsers() {
   hash = await argon2.hash("def456", { type: argon2.argon2id });
   await db.user.create({ email: "oliG@email.com", password_hash: hash, name: "Oliver", join_date : null });
 
-  // Create Root post
-  // theres probably a better way to do this,
-  // but all posts that arent replies, have this post as their parent
-  await db.post.create({ body: "root", timestamp: DateTime.now(), imageURL: null })
 }
 
 module.exports = db;
