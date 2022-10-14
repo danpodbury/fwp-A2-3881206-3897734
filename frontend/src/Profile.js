@@ -53,7 +53,7 @@ function Profile() {
                     <EditProfile handleEdit={event => handleEdit()}/> : 
                     <StaticProfile handleEdit={event => handleEdit()}/>}
 
-                    <ConfirmationModal onConfirm={handleDelete} confirmText={"Yes, Delete Account"} body={"Deleting your account is permanent!!<br/> Are you absolutely sure you want to continue?"}/>
+                    <ConfirmationModal buttonText={"Delete Account"} onConfirm={handleDelete} confirmText={"Yes, Delete Account"} body={"Deleting your account is permanent!!<br/> Are you absolutely sure you want to continue?"}/>
                 </div>
                 <div className="form-container" style={{"width":"80%"}}>
                     My Posts

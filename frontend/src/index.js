@@ -37,7 +37,7 @@ root.render(
         <Route path="/post" element={<Posting />}></Route>
         <Route path="/user/-1" element={<ErrorUser/>}></Route>
         <Route path="/user/:userId" element={<PublicProfile />}></Route>
-        <Route path="/user/:userId/following" element={<Following/>}></Route>
+        <Route path="/profile/following" element={<Following/>}></Route>
         <Route path="/sandbox" element={<Sandbox />}></Route>
         <Route path="/*" element={<Error />}></Route>
         {/* TODO: write an error page*/}   
