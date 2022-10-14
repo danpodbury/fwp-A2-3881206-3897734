@@ -24,7 +24,7 @@ export function ConfirmationModal({buttonText, body, onConfirm, confirmText}) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Account</Modal.Title>
+          <Modal.Title>{buttonText}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{body}
         </Modal.Body>

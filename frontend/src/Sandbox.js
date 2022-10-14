@@ -32,10 +32,13 @@ function Sandbox() {
       <div>
         <br/><br/><br/>
         <table className="table table-hover rightaAlignTableData">
+          <thead>
+            <tr>
+              <th scope="col">Users you are following:</th>
+            </tr>
+          </thead>
           <tbody>
         {followingUsers.length > 0 ? 
-        
-        
         followingUsers.map((user)=>(
             <tr key={user.getId()}>
               <th scope="row"><NavLink to={`/user/${user.getId()}`} className="btn btn-lg btn-primary">{user.getName()}</NavLink></th>
@@ -44,7 +47,7 @@ function Sandbox() {
         ))
     :
             <tr>
-              <th>You are not currently follwoing anyone!</th>
+              <th style={{textAlign: "center"}}>You are not currently following anyone!</th>
             </tr>
     }
           </tbody>
