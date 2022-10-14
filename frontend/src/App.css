@@ -50,3 +50,9 @@
   padding: 20px;
   box-shadow: 0 7px 10px #0000005e;
 }
+
+.app-wrapper{
+  background-color: #4a5160;
+  min-height: 100vh;
+  color: white;
+}
