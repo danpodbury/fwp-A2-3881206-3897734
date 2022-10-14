@@ -6,6 +6,18 @@ class User{
       this.password = password;
       this.join_date = join_date;
     }
-  }
 
+    getId(){
+      return this.id;
+    }
+    
+    getName(){
+      return this.name;
+    }
+
+    getEmail(){
+      return this.email;
+    }
+  }
+  
 export default User;
