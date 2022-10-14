@@ -1,4 +1,4 @@
-import logo from '../pizza-slice.svg';
+import logo from '../images/pizza-slice.svg';
 import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import { useNavigate } from "react-router-dom";

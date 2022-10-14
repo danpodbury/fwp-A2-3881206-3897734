@@ -1,6 +1,6 @@
 import '../App.css';
 import '../pages/Posting.css';
-import logo from '../pizza-slice.svg';
+import logo from '../images/pizza-slice.svg';
 import Reply from './Reply';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
