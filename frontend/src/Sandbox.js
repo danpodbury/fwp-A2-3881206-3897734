@@ -37,7 +37,7 @@ function Sandbox() {
         
         
         followingUsers.map((user)=>(
-            <tr key={user.getId}>
+            <tr key={user.getId()}>
               <th scope="row"><NavLink to={`/user/${user.getId()}`} className="btn btn-lg btn-primary">{user.getName()}</NavLink></th>
               <td><ConfirmationModal onConfirm={()=>unFollowUser(user.getId())} buttonText="Unfollow User" body={`Are you sure you want to unfollow ${user.getName()}?`} confirmText="Unfollow"/></td>
             </tr>
