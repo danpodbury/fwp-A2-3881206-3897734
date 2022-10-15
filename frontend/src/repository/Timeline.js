@@ -23,12 +23,14 @@ export async function getPostById(id){
 // Read
 export async function getRootPosts(){
     // TODO : test
-    const response = await axios.get(API_HOST + "/api/posts/");
-    if(response.data !== null) {
-        return response.data.filter(p => p.parent_id === null)
-    } else {
-        return null
-    }
+    return new Promise(function(resolve, reject) {
+        const response = axios.get(API_HOST + "/api/posts/");
+        if(response.data !== null) {
+            resolve(response.data.filter(p => p.parent_id === null));
+        } else {
+            reject("Cannot retreive posts");
+        }
+    });
 }
 
 // Read

@@ -34,12 +34,23 @@ function Timeline(){
     //Set up posting form
     const { value:postBody, bind:bindPostBody, reset:resetPostBody } = useInput("");
     const [selectedFile, setSelectedFile] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [timeline, setTimeline] = useState([]);
 
-    //get all root posts
-    var timeline = TimelineRepo.getRootPosts()
 
+    TimelineRepo.getRootPosts().then(
+        (result)=>{
+            setLoading(false);
+            setTimeline(result);
+        }
+    ).catch(
+        (error)=>{
+            console.log(error);
+        }
+    )
+    
     // put timeline in reverse chronological order
-    timeline.sort((a,b) => (a.timestamp < b.timestamp) ? 1 : -1)
+    //timeline.sort((a,b) => (a.timestamp < b.timestamp) ? 1 : -1)
     
     // Make a new post on the timeline
     async function handleNewPost(evt){
@@ -133,9 +144,14 @@ function Timeline(){
         </div>
 
         <div style={{"width":"80%","maxWidth":"800px"}}>
-        {timeline.map((p) => {
+        {
+        loading ? 
+        <p className="centered-text">Loading...</p>
+        :
+        timeline.map((p) => {
             return (<Comment post={p} level="0" replyFunc={handleReply} key={"post_"+p.post_id} isRecord={true}/>);
-        })}
+        })
+        }
         </div>
 
         <button className="btn btn-warning" onClick={debugClearPosts}>DEBUG: reset</button>
