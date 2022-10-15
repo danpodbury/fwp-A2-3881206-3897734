@@ -17,7 +17,7 @@ function Home() {
   
   return (
     <div className="App">
-    <header className="App-header">
+    {/* <header className="App-header"> */}
     <div style={{"display": "flex", "flexDirection": "column", "width": "100%", "height": "calc(100vh - 50px)", "justifyContent": "center"}} >
 
       <div style={{"display": "flex", "flexDirection": "row", "width": "100%", "height": "400px", "justifyContent": "center"}}>
@@ -47,7 +47,7 @@ function Home() {
           </div>
           <div style={{"width":"200px"}}>
           <Link to="/signin" >
-            <button type="button" className='btn' style={{"width":"100%", "backgroundColor":"orange"}}>Sign In</button>
+            <button type="button" className='btn btn-warning' style={{"width":"100%"}}>Sign In</button>
           </Link>
           </div>
           <div style={{"width":"200px"}}>
@@ -61,7 +61,7 @@ function Home() {
 
     </div>
     
-    </header>
+    {/* </header> */}
   </div>
   );
 }

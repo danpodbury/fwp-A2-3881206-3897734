@@ -1,3 +1,6 @@
+//This is the theme of the site
+//Sourced from https://bootswatch.com/darkly/
+import "bootswatch/dist/darkly/bootstrap.min.css";
 import './App.css';
 import React from 'react';
 import NavBar from './components/NavBar';
@@ -7,7 +10,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className='app-wrapper'>
+    <div>
     <NavBar /> 
     <Outlet />
     <Footer />
