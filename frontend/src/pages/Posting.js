@@ -9,6 +9,7 @@ import * as TimelineRepo from '../repository/Timeline';
 import FileUploader from '../components/FileUploader'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import PostComponent from '../components/PostComponent';
 
 function Posting() {
 
@@ -127,7 +128,7 @@ function Timeline(){
         <div className="App">
         <header className="App-header" style={{"justifyContent":"start","paddingTop":"160px","paddingBottom":"100px"}}>
         
-        <div className='post-header'>
+        <div className='post-header' style={{"zIndex": "1"}}>
         <form onSubmit={handleNewPost} className="comment-new" >
             <div className="mb-8">
                 {/*<label htmlFor="exampleInputName" className="form-label" >Whats on your mind?</label>*/}
@@ -149,7 +150,7 @@ function Timeline(){
         <p className="centered-text">Loading...</p>
         :
         timeline.map((p) => {
-            return (<Comment post={p} level="0" replyFunc={()=>null} key={p.post_id} isRecord={false}/>);
+            return (<PostComponent post={p} key={p.post_id}/>);
             
         })
         }
