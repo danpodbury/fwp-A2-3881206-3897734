@@ -23,11 +23,11 @@ export async function getPostById(id){
 // Read
 export async function getRootPosts(){
     // TODO : test
-    const response = await axios.get(API_HOST + "/api/posts/")
+    const response = await axios.get(API_HOST + "/api/posts/");
 
-    console.log("Response: " + JSON.stringify(response));
+    console.log("Response: " + JSON.stringify(response.data));
     if(response.data !== null) {
-        return (response.data.filter(p => p.parent_id === null));
+        return (response.data.filter(p => p.parent === null));
     } else {
         throw Error("Cannot retreive posts");
     }

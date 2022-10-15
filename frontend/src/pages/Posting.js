@@ -35,27 +35,18 @@ function Timeline(){
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [timeline, setTimeline] = useState([]);
-
-    useEffect(()=>{
-        async function getPosts(){
-            let time = await TimelineRepo.getRootPosts()
-            console.log("timeline response: " + time);
+    //This is just to keep track of 
+    const [numPosts, setNumPosts] = useState(0);
+    
+    useEffect(() => {
+        setLoading(true);
+        TimelineRepo.getRootPosts().then((result) => {
             setLoading(false);
-            setTimeline(time);
-        } 
-        getPosts();
-    },[loading])
+            setTimeline(result);
+        });
+    }, [numPosts]);
+    
 
-    // TimelineRepo.getRootPosts().then(
-    //     (result)=>{
-    //         setLoading(false);
-    //         setTimeline(result);
-    //     }
-    //     ).catch(
-    //     (error)=>{
-    //         console.log(error);
-    //     }
-    // )
     
     // put timeline in reverse chronological order
     //timeline.sort((a,b) => (a.timestamp < b.timestamp) ? 1 : -1)
@@ -75,6 +66,7 @@ function Timeline(){
         let user = JSON.parse(localStorage.getItem("currentUser"));
         let timestamp = Date.now();
         let post = new Post(user, postBody, timestamp);
+        setNumPosts((numPosts+1));
 
         //attach image if present
         if (selectedFile != null){
@@ -157,7 +149,8 @@ function Timeline(){
         <p className="centered-text">Loading...</p>
         :
         timeline.map((p) => {
-            return (<Comment post={p} level="0" replyFunc={handleReply} key={"post_"+p.post_id} isRecord={true}/>);
+            return (<Comment post={p} level="0" replyFunc={()=>null} key={p.post_id} isRecord={false}/>);
+            
         })
         }
         </div>
