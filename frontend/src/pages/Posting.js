@@ -8,8 +8,7 @@ import Comment from '../components/Comment';
 import * as TimelineRepo from '../repository/Timeline';
 import FileUploader from '../components/FileUploader'
 import axios from 'axios';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 
 function Posting() {
 
@@ -37,17 +36,26 @@ function Timeline(){
     const [loading, setLoading] = useState(true);
     const [timeline, setTimeline] = useState([]);
 
-
-    TimelineRepo.getRootPosts().then(
-        (result)=>{
+    useEffect(()=>{
+        async function getPosts(){
+            let time = await TimelineRepo.getRootPosts()
+            console.log("timeline response: " + time);
             setLoading(false);
-            setTimeline(result);
-        }
-        ).catch(
-        (error)=>{
-            console.log(error);
-        }
-    )
+            setTimeline(time);
+        } 
+        getPosts();
+    },[loading])
+
+    // TimelineRepo.getRootPosts().then(
+    //     (result)=>{
+    //         setLoading(false);
+    //         setTimeline(result);
+    //     }
+    //     ).catch(
+    //     (error)=>{
+    //         console.log(error);
+    //     }
+    // )
     
     // put timeline in reverse chronological order
     //timeline.sort((a,b) => (a.timestamp < b.timestamp) ? 1 : -1)
