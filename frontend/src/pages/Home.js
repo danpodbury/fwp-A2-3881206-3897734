@@ -17,7 +17,6 @@ function Home() {
   
   return (
     <div className="App">
-    {/* <header className="App-header"> */}
     <div style={{"display": "flex", "flexDirection": "column", "width": "100%", "height": "calc(100vh - 50px)", "justifyContent": "center"}} >
 
       <div style={{"display": "flex", "flexDirection": "row", "width": "100%", "height": "400px", "justifyContent": "center"}}>
@@ -60,9 +59,7 @@ function Home() {
       </div>
 
     </div>
-    
-    {/* </header> */}
-  </div>
+    </div>
   );
 }
 
