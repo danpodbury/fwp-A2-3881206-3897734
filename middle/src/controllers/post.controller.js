@@ -1,3 +1,4 @@
+
 // this file was adapted from week 8 lab
 const db = require("../database");
 
@@ -35,9 +36,11 @@ exports.update = async (req, res) => {
 
 // Create a post in the database.
 exports.create = async (req, res) => {
+  console.log("Post: "+ JSON.stringify(req.body));
   const post = await db.post.create({
-    text: req.body.text,
-    username: req.body.username
+    body: req.body.body,
+    user_id: req.body.user_id,
+    timestamp: Date.now(),
   });
 
   res.json(post);

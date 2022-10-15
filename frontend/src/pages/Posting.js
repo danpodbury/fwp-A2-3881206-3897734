@@ -8,8 +8,7 @@ import Comment from '../components/Comment';
 import * as TimelineRepo from '../repository/Timeline';
 import FileUploader from '../components/FileUploader'
 import axios from 'axios';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 
 function Posting() {
 
@@ -36,18 +35,18 @@ function Timeline(){
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [timeline, setTimeline] = useState([]);
-
-
-    TimelineRepo.getRootPosts().then(
-        (result)=>{
+    //This is just to keep track of 
+    const [numPosts, setNumPosts] = useState(0);
+    
+    useEffect(() => {
+        setLoading(true);
+        TimelineRepo.getRootPosts().then((result) => {
             setLoading(false);
             setTimeline(result);
-        }
-    ).catch(
-        (error)=>{
-            console.log(error);
-        }
-    )
+        });
+    }, [numPosts]);
+    
+
     
     // put timeline in reverse chronological order
     //timeline.sort((a,b) => (a.timestamp < b.timestamp) ? 1 : -1)
@@ -67,6 +66,7 @@ function Timeline(){
         let user = JSON.parse(localStorage.getItem("currentUser"));
         let timestamp = Date.now();
         let post = new Post(user, postBody, timestamp);
+        setNumPosts((numPosts+1));
 
         //attach image if present
         if (selectedFile != null){
@@ -106,8 +106,8 @@ function Timeline(){
 
         // create new post
         let user = JSON.parse(localStorage.getItem("currentUser"));
-        let timestamp = Date.now();
-        let post = new Post(user, body, timestamp);
+        console.log(user);
+        let post = new Post(user, body);
         post.parentID = parent_id;
 
         // append new post to timeline
@@ -149,7 +149,8 @@ function Timeline(){
         <p className="centered-text">Loading...</p>
         :
         timeline.map((p) => {
-            return (<Comment post={p} level="0" replyFunc={handleReply} key={"post_"+p.post_id} isRecord={true}/>);
+            return (<Comment post={p} level="0" replyFunc={()=>null} key={p.post_id} isRecord={false}/>);
+            
         })
         }
         </div>
