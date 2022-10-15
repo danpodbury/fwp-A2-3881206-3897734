@@ -43,7 +43,7 @@ function Timeline(){
             setLoading(false);
             setTimeline(result);
         }
-    ).catch(
+        ).catch(
         (error)=>{
             console.log(error);
         }
@@ -106,8 +106,8 @@ function Timeline(){
 
         // create new post
         let user = JSON.parse(localStorage.getItem("currentUser"));
-        let timestamp = Date.now();
-        let post = new Post(user, body, timestamp);
+        console.log(user);
+        let post = new Post(user, body);
         post.parentID = parent_id;
 
         // append new post to timeline
