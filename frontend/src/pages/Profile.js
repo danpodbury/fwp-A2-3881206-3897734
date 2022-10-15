@@ -1,4 +1,5 @@
 import '../App.css';
+import './Profile.css';
 import React from 'react';
 import {useState} from 'react';
 import useInput from '../hooks/useInput';
@@ -41,11 +42,11 @@ function Profile() {
     const userDetails = JSON.parse(localStorage.getItem("currentUser"));
     // Render
     return (
-        <>
+        <div>
         {isLoggedIn === "true" ? 
         <div className="App">
             <div id="profile-display">
-            <header className="App-header">
+            <div className="centered-profile-wrapper">
                 <div className="form-container" style={{"width":"80%","margin":"10px"}}>
                     My Profile
                     
@@ -59,12 +60,12 @@ function Profile() {
                     My Posts
                     <UserPosts userId={userDetails.user_id}/>
                 </div>
-            </header>
+            </div>
             </div>
             
         </div> 
         : <NotAuthorized/>}
-        </>
+        </div>
     );
 }
 
