@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 
 // Adapted from: https://react-bootstrap.github.io/components/modal/
 
-export function ConfirmationModal({buttonText, body, onConfirm, confirmText}) {
+export function ConfirmationModal({buttonText, body, onConfirm, confirmText, confirmStyling = "btn-danger", buttonStyling = "btn-danger"}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -17,7 +17,7 @@ export function ConfirmationModal({buttonText, body, onConfirm, confirmText}) {
 
   return (
     <div>
-      <Button variant="danger" onClick={handleShow}>
+      <Button className={buttonStyling} onClick={handleShow}>
         {buttonText}
       </Button>
 
@@ -25,13 +25,14 @@ export function ConfirmationModal({buttonText, body, onConfirm, confirmText}) {
         <Modal.Header closeButton>
           <Modal.Title>{buttonText}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{body}
+        <Modal.Body>
+          {body}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleConfirmation}>
+          <Button className={confirmStyling} onClick={handleConfirmation}>
             {confirmText}
           </Button>
         </Modal.Footer>

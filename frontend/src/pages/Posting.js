@@ -66,8 +66,8 @@ function Timeline(){
         // create new post
         let user = JSON.parse(localStorage.getItem("currentUser"));
         let timestamp = Date.now();
-        let post = new Post(user, postBody, timestamp);
-        setNumPosts((numPosts+1));
+        let post = new Post({user:user, body: postBody, timestamp: timestamp});
+        //setNumPosts((numPosts+1));
 
         //attach image if present
         if (selectedFile != null){
@@ -88,7 +88,7 @@ function Timeline(){
         }
 
         // send post to database
-        TimelineRepo.addPost(post)
+        console.log("New post:" + JSON.stringify(await TimelineRepo.addPost(post)));
 
         // reset
         resetPostBody();

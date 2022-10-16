@@ -37,11 +37,31 @@ exports.update = async (req, res) => {
 // Create a post in the database.
 exports.create = async (req, res) => {
   console.log("Post: "+ JSON.stringify(req.body));
+  let parentId = null;
+  if(req.body.parentId){
+    parentId = req.body.parentId;
+  }
   const post = await db.post.create({
     body: req.body.body,
     user_id: req.body.user_id,
     timestamp: Date.now(),
+    parent: parentId,
   });
+
+  if(parentId){
+    const parentPost = await db.post.findByPk(parentId);
+    var response;
+    console.log("Parent: " + JSON.stringify(parentPost));
+    if(!parentPost.children){
+      response = await parentPost.set({children: [post]});
+    }
+    else{
+      response = await parentPost.children.add(post);
+    }
+    await parentPost.save();
+    
+    console.log("Response to adding: " + JSON.stringify(response));
+  }
 
   res.json(post);
 };
