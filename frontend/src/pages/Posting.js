@@ -96,10 +96,10 @@ function Timeline(){
     } 
 
     // Reset the timeline
-    function debugClearPosts(){
-        localStorage.setItem('timeline', "[]");
-        nav("/post");
-    }
+    // function debugClearPosts(){
+    //     localStorage.setItem('timeline', "[]");
+    //     nav("/post");
+    // }
 
     // Add a reply
     function handleReply(parent_id, body) {
@@ -156,7 +156,7 @@ function Timeline(){
         }
         </div>
 
-        <button className="btn btn-warning" onClick={debugClearPosts}>DEBUG: reset</button>
+        {/*<button className="btn btn-warning" onClick={debugClearPosts}>DEBUG: reset</button>*/}
 
         </header>
     </div>
