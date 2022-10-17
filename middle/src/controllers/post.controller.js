@@ -37,6 +37,10 @@ exports.update = async (req, res) => {
 // Create a post in the database.
 exports.create = async (req, res) => {
   console.log("Creating Post: "+ JSON.stringify(req.body));
+  let parentId = null;
+  if(req.body.parentId){
+    parentId = req.body.parentId;
+  }
 
   // extract post from json
   const post = await db.post.create({
@@ -44,35 +48,9 @@ exports.create = async (req, res) => {
     user_id: req.body.user_id,
     imageURL: req.body.imageURL,
     timestamp: Date.now(),
-    parent: null,
+    parent: parentId,
     children: null 
   });
-  let childPost = await db.post.findByPk(post.post_id);
-  console.log("childPost: "+ JSON.stringify(childPost));
-
-  // find parent post if it exists
-  if(req.body.parentId){
-    console.log("Searching for post parent with id: "+ req.body.parentId);
-    parentPost = await db.post.findByPk(req.body.parentId);
-    console.log("Found parent: " + JSON.stringify(parentPost));
-
-    // Link parent to child
-    if(parentPost.children === null){
-      // add this post as first child to parent
-      console.log("adding first child")
-      var response = await parentPost.set({children: [childPost.post_id]});
-    }
-    else{
-      // add this post as additional child to parent
-      console.log("adding next child")
-      var response = await parentPost.children.add(childPost.post_id);
-    }
-    await parentPost.save();
-    console.log("Response to adding: " + JSON.stringify(response));
-
-    // Link child to parent
-    post.set({parent: parentPost})
-  }
 
   res.json(post);
 };
