@@ -31,7 +31,7 @@ function SignUp() {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    let threshold = 0
+    let threshold = 0 //TODO: set this back to a higher level eg. 2 or 3
     if (zxcvbn(Password).score < threshold){
       alert(`Your password is ${strengthStrings[zxcvbn(Password).score]}. Please use a stronger password.`);
       return;

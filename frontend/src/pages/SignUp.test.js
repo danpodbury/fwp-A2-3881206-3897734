@@ -1,4 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom'
+
 // import {rest} from 'msw'
 // import {setupServer} from 'msw/node'
 import SignUp from './SignUp';
@@ -19,20 +21,25 @@ test('SignUp pages loads', () => {
     );
 
     // are the form fields rendered?
-    expect(screen.getByTestId("form-name")).toBeInTheDocument();
-    expect(screen.getByTestId("form-pw")).toBeInTheDocument();
-    expect(screen.getByTestId("form-email")).toBeInTheDocument();
-    expect(screen.getByText("Create Account")).toBeInTheDocument();
+    var name = screen.getByTestId("form-name");
+    var pw = screen.getByTestId("form-pw");
+    var email = screen.getByTestId("form-email");
+    var title = screen.getByText("Create Account");
+
+    expect(name).toBeInTheDocument();
+    expect(pw).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+    expect(title).toBeInTheDocument();
 
 });
 
-test('Registering a new account sends the correct info', () => {
-    render(
-        <BrowserRouter>
-            <SignUp />
-        </BrowserRouter>
-    );
+// test('Registering a new account sends the correct info', () => {
+//     render(
+//         <BrowserRouter>
+//             <SignUp />
+//         </BrowserRouter>
+//     );
 
-    //fireEvent.click(screen.getByText('Create Account'))
-    // todo: this test
-});
+//     //fireEvent.click(screen.getByText('Create Account'))
+//     // todo: this test
+// });
