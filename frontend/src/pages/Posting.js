@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import Post from '../models/Post';
 import NotAuthorized from './NotAuth';
-import Comment from '../components/Comment';
+//import Comment from '../components/Comment';
 import * as TimelineRepo from '../repository/Timeline';
 import FileUploader from '../components/FileUploader'
 import axios from 'axios';
@@ -101,26 +101,26 @@ function Timeline(){
     // }
 
     // Add a reply
-    function handleReply(parent_id, body) {
-        //console.log("reply to: "+ parent_id);
+    // function handleReply(parent_id, body) {
+    //     //console.log("reply to: "+ parent_id);
 
-        // create new post
-        let user = JSON.parse(localStorage.getItem("currentUser"));
-        console.log(user);
-        let post = new Post(user, body);
-        post.parentID = parent_id;
+    //     // create new post
+    //     let user = JSON.parse(localStorage.getItem("currentUser"));
+    //     console.log(user);
+    //     let post = new Post(user, body);
+    //     post.parentID = parent_id;
 
-        // append new post to timeline
-        let id = TimelineRepo.addPost(post);
+    //     // append new post to timeline
+    //     let id = TimelineRepo.addPost(post);
 
-        // find parent and append this posts id to children
-        let parent = TimelineRepo.getPostById(parent_id);
-        parent.childIDs.push(id);
+    //     // find parent and append this posts id to children
+    //     let parent = TimelineRepo.getPostById(parent_id);
+    //     parent.childIDs.push(id);
 
-        TimelineRepo.updatePostById(parent_id, parent);
+    //     TimelineRepo.updatePostById(parent_id, parent);
         
-        nav("/post")
-    }
+    //     nav("/post")
+    // }
 
     // Render
     return (

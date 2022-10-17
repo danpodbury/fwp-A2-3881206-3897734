@@ -1,6 +1,6 @@
 import "./PostComponent.css";
 import Post from '../models/Post.js';
-import {useState} from 'react';
+import {useState, useEffect } from 'react';
 import profilePhoto1 from "../images/profilePhotos/placeholdeProfilePhoto1.jpg";
 import profilePhoto2 from "../images/profilePhotos/placeholdeProfilePhoto2.jpg";
 import profilePhoto3 from "../images/profilePhotos/placeholdeProfilePhoto3.jpg";
@@ -16,6 +16,21 @@ function PostComponent({post}){
     console.log(post);
     var modalTextBoxValue = "";
     const maxLength = 600;
+    const something = " ";
+
+    const [replies, setReplies] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (loading){
+            TimelineRepo.getPostsByParentId(post.post_id).then((result) => {
+                setLoading(false);
+                setReplies(result);
+                console.log(replies);
+            });
+        }
+
+    });
 
     const ModalContent = ()=>{
         const [textBoxValue, setTextBoxValue] = useState("");
@@ -72,7 +87,19 @@ function PostComponent({post}){
                 <ConfirmationModal buttonText={"Reply"} onConfirm={ReplyToPost} confirmText={"Reply"} confirmStyling={"btn-success"} buttonStyling={"btn-secondary"} body={<ModalContent/>}/>
                 <Reactions postId={post.post_id} key={post.post_id}/>
             </div>
+
+            {
+                loading ? 
+                <p className="centered-text">Loading...</p>
+                :
+                replies.map((p) => {
+                    return (<PostComponent post={p} key={p.post_id}/>);
+                    
+                })
+            }
+
         </div>
+
     );
 }
 export default PostComponent;
