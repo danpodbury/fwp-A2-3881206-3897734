@@ -30,6 +30,7 @@ function Posting() {
 // Timeline for members to view and post
 function Timeline(){
     const nav = useNavigate();
+    const maxLength = 600;
 
     //Set up posting form
     const { value:postBody, bind:bindPostBody, reset:resetPostBody } = useInput("");
@@ -58,8 +59,8 @@ function Timeline(){
 
         //limit post length
         console.log(postBody.length)
-        if (postBody.length === 0 || postBody.length > 600){
-            alert("Posts must be between 1 and 250 characters")
+        if (postBody.length === 0 || postBody.length > maxLength){
+            alert("Posts must be between 1 and "+maxLength+" characters");
             return;
         }
 
@@ -130,12 +131,12 @@ function Timeline(){
         <form onSubmit={handleNewPost} className="comment-new" >
             <div className="mb-8">
                 {/*<label htmlFor="exampleInputName" className="form-label" >Whats on your mind?</label>*/}
-                <textarea className="form-control" type="text" placeholder="How are you staying agile today?" {...bindPostBody} maxLength={600} />
+                <textarea className="form-control" type="text" placeholder="How are you staying agile today?" {...bindPostBody} maxLength={maxLength} />
             </div>
             <div style={{"display":"flex", "justifyContent": "space-between"}}>
                 <FileUploader onFileSelectSuccess={(file) => setSelectedFile(file)} onFileSelectError={({ error }) => alert(error)}/>
                 <div style={{"display":"flex","flexDirection":"row"}}>
-                    <div style={{"fontSize":"14pt","display":"flex","alignItems":"center","marginRight":"10px"}}>{postBody.length}/600</div>
+                    <div style={{"fontSize":"14pt","display":"flex","alignItems":"center","marginRight":"10px"}}>{postBody.length}/{maxLength}</div>
                     <button type="submit" className="btn" style={{"width":"70px", "alignSelf":"end", "backgroundColor":"orange"}}>Post</button>
                 </div>
             </div>

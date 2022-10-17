@@ -15,6 +15,7 @@ import { ConfirmationModal } from "./Modal";
 function PostComponent({post}){
     console.log(post);
     var modalTextBoxValue = "";
+    const maxLength = 600;
 
     const ModalContent = ()=>{
         const [textBoxValue, setTextBoxValue] = useState("");
@@ -25,7 +26,7 @@ function PostComponent({post}){
         //Could use useEffect hook to make sure that the text box goes blank every time
         return(
         <div>
-            <textarea className="form-control" type="text" placeholder="How are you staying agile today?" value={textBoxValue} onChange={event=>{textBoxControler(event.target.value)}} maxLength={250} />
+            <textarea className="form-control" type="text" placeholder="How are you staying agile today?" value={textBoxValue} onChange={event=>{textBoxControler(event.target.value)}} maxLength={maxLength} />
         </div>
         );
     };
@@ -33,8 +34,8 @@ function PostComponent({post}){
     const ReplyToPost = ()=>{
         //limit post length
         //console.log(modalTextBoxValue.length);
-        if (modalTextBoxValue.length === 0 || modalTextBoxValue.length > 250){ // todo: change to 600
-            alert("Posts must be between 1 and 250 characters");
+        if (modalTextBoxValue.length === 0 || modalTextBoxValue.length > maxLength){
+            alert("Posts must be between 1 and "+maxLength+" characters");
             return;
         }
         let user = JSON.parse(localStorage.getItem("currentUser"));
