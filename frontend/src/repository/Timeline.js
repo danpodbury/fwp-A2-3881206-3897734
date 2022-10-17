@@ -50,7 +50,6 @@ export async function getUserPostsById(userId){
 export async function getPostsByParentId(id){
     // TODO : test
     const response = await axios.get(API_HOST + "/api/posts/");
-    console.log("data:"+JSON.stringify(response.data));
     if(response.data !== null) {
         return response.data.filter(p => p.parent === id)
     } else {

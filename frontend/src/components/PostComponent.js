@@ -16,7 +16,6 @@ function PostComponent({post}){
     console.log(post);
     var modalTextBoxValue = "";
     const maxLength = 600;
-    const something = " ";
 
     const [replies, setReplies] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,7 +25,6 @@ function PostComponent({post}){
             TimelineRepo.getPostsByParentId(post.post_id).then((result) => {
                 setLoading(false);
                 setReplies(result);
-                console.log(replies);
             });
         }
 
