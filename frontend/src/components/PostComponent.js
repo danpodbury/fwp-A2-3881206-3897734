@@ -13,7 +13,7 @@ import { ConfirmationModal } from "./Modal";
 
 //Is passed a post obj through
 function PostComponent({post}){
-    console.log(post);
+    //console.log(post);
     var modalTextBoxValue = "";
     const maxLength = 600;
 
