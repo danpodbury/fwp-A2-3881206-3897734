@@ -1,8 +1,10 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import '@testing-library/jest-dom'
 import Profile from './Profile';
 import {BrowserRouter} from "react-router-dom";
 import axios from "axios";
+import * as TimelineRepo from '../repository/Timeline';
 
 import { getMockServer, getMockDatabase } from '../repository/MockServer';
 let server = null
@@ -97,7 +99,13 @@ test('Correct user posts display', async () => {
     
     expect(posts.length).toBe(2)
 
-    let comments = screen.queryByTestId("comment")
-    expect(comments).toHaveLength(2) 
+    // this waits for the posts to async in
+    // pretty hacky and will probably cause inconsistent test results
+    await setTimeout(()=>{
+        let comments = screen.getAllByAltText("Profile")
+        expect(comments).toHaveLength(2) 
+    }, 1000);
 
+    // something like this might be a better approach
+    //    await waitFor(() => expect(TimelineRepo.getUserPostsById).toHaveBeenCalledTimes(1));
 });

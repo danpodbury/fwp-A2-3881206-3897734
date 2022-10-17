@@ -36,11 +36,20 @@ exports.update = async (req, res) => {
 
 // Create a post in the database.
 exports.create = async (req, res) => {
-  console.log("Post: "+ JSON.stringify(req.body));
+  console.log("Creating Post: "+ JSON.stringify(req.body));
+  let parentId = null;
+  if(req.body.parentId){
+    parentId = req.body.parentId;
+  }
+
+  // extract post from json
   const post = await db.post.create({
     body: req.body.body,
     user_id: req.body.user_id,
+    imageURL: req.body.imageURL,
     timestamp: Date.now(),
+    parent: parentId,
+    children: null 
   });
 
   res.json(post);

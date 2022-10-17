@@ -1,0 +1,13 @@
+.reaction-row {
+    display: flex;
+    width: 400px;
+}
+
+.reaction-button {
+    padding: 0;
+    transition-duration: 0.2;
+}
+
+.reaction-img {
+    width:40px;
+}

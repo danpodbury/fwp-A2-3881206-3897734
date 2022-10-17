@@ -1,24 +1,22 @@
 import * as TimelineRepo from '../repository/Timeline';
 import Comment from './Comment';
 import { useEffect, useState } from 'react';
+import PostComponent from '../components/PostComponent';
 
 
 function UserPosts(props) {
 
-    function handleReply(){
-        console.log("Not yet implimented");
-    }
+    // function handleReply(){
+    //     console.log("Not yet implimented");
+    // }
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState(<span>loading...</span>);
     useEffect(()=>{
         async function getPosts(){
             let ps = await TimelineRepo.getUserPostsById(props.userId)
-            let render = ps.map((p) => {
-                console.log("<== render comment ==>")
-                return (<Comment post={p} level="0" replyFunc={handleReply} key={"post_"+p.post_id} isRecord={false}/>);
-            })
+
             setLoading(false)
-            setPosts(render);
+            setPosts(ps);
             
         } 
         getPosts();
@@ -26,7 +24,17 @@ function UserPosts(props) {
 
 
     return (
-        <div>{ (loading)?<span>loading</span>: [posts] }</div>
+    //     <div>{ (loading)?<span>loading</span>: [posts] }</div>
+    <div>
+        {
+            loading ? 
+            <p className="centered-text">Loading...</p>
+            :
+            posts.map((p) => {
+                return (<PostComponent post={p} key={p.post_id}/>);
+            })
+        }
+        </div>
     );
 }
 

@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import useInput from '../hooks/useInput';
 import Post from '../models/Post';
 import NotAuthorized from './NotAuth';
-import Comment from '../components/Comment';
+//import Comment from '../components/Comment';
 import * as TimelineRepo from '../repository/Timeline';
 import FileUploader from '../components/FileUploader'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import PostComponent from '../components/PostComponent';
 
 function Posting() {
 
@@ -29,6 +30,7 @@ function Posting() {
 // Timeline for members to view and post
 function Timeline(){
     const nav = useNavigate();
+    const maxLength = 600;
 
     //Set up posting form
     const { value:postBody, bind:bindPostBody, reset:resetPostBody } = useInput("");
@@ -57,22 +59,20 @@ function Timeline(){
 
         //limit post length
         console.log(postBody.length)
-        if (postBody.length === 0 || postBody.length > 250){ // todo: change to 600
-            alert("Posts must be between 1 and 250 characters")
+        if (postBody.length === 0 || postBody.length > maxLength){
+            alert("Posts must be between 1 and "+maxLength+" characters");
             return;
         }
 
         // create new post
         let user = JSON.parse(localStorage.getItem("currentUser"));
-        let timestamp = Date.now();
-        let post = new Post(user, postBody, timestamp);
-        setNumPosts((numPosts+1));
+        let post = new Post({user:user, body: postBody});
 
         //attach image if present
         if (selectedFile != null){
             const formData = new FormData();
             formData.append("image", selectedFile);
-        
+
             // Yes I know the API key should absolutely not be here
             // In production/A2 onwards a new key will be secured on the backend
             const super_secret_api_key = "d893acba030fb10633893068fb1d5783"
@@ -87,7 +87,7 @@ function Timeline(){
         }
 
         // send post to database
-        TimelineRepo.addPost(post)
+        console.log("New post:" + JSON.stringify(await TimelineRepo.addPost(post)));
 
         // reset
         resetPostBody();
@@ -95,48 +95,48 @@ function Timeline(){
     } 
 
     // Reset the timeline
-    function debugClearPosts(){
-        localStorage.setItem('timeline', "[]");
-        nav("/post");
-    }
+    // function debugClearPosts(){
+    //     localStorage.setItem('timeline', "[]");
+    //     nav("/post");
+    // }
 
     // Add a reply
-    function handleReply(parent_id, body) {
-        //console.log("reply to: "+ parent_id);
+    // function handleReply(parent_id, body) {
+    //     //console.log("reply to: "+ parent_id);
 
-        // create new post
-        let user = JSON.parse(localStorage.getItem("currentUser"));
-        console.log(user);
-        let post = new Post(user, body);
-        post.parentID = parent_id;
+    //     // create new post
+    //     let user = JSON.parse(localStorage.getItem("currentUser"));
+    //     console.log(user);
+    //     let post = new Post(user, body);
+    //     post.parentID = parent_id;
 
-        // append new post to timeline
-        let id = TimelineRepo.addPost(post);
+    //     // append new post to timeline
+    //     let id = TimelineRepo.addPost(post);
 
-        // find parent and append this posts id to children
-        let parent = TimelineRepo.getPostById(parent_id);
-        parent.childIDs.push(id);
+    //     // find parent and append this posts id to children
+    //     let parent = TimelineRepo.getPostById(parent_id);
+    //     parent.childIDs.push(id);
 
-        TimelineRepo.updatePostById(parent_id, parent);
+    //     TimelineRepo.updatePostById(parent_id, parent);
         
-        nav("/post")
-    }
+    //     nav("/post")
+    // }
 
     // Render
     return (
         <div className="App">
         <header className="App-header" style={{"justifyContent":"start","paddingTop":"160px","paddingBottom":"100px"}}>
         
-        <div className='post-header'>
+        <div className='post-header' style={{"zIndex": "1"}}>
         <form onSubmit={handleNewPost} className="comment-new" >
             <div className="mb-8">
                 {/*<label htmlFor="exampleInputName" className="form-label" >Whats on your mind?</label>*/}
-                <textarea className="form-control" type="text" placeholder="How are you staying agile today?" {...bindPostBody} maxLength={250} />
+                <textarea className="form-control" type="text" placeholder="How are you staying agile today?" {...bindPostBody} maxLength={maxLength} />
             </div>
             <div style={{"display":"flex", "justifyContent": "space-between"}}>
                 <FileUploader onFileSelectSuccess={(file) => setSelectedFile(file)} onFileSelectError={({ error }) => alert(error)}/>
                 <div style={{"display":"flex","flexDirection":"row"}}>
-                    <div style={{"fontSize":"14pt","display":"flex","alignItems":"center","marginRight":"10px"}}>{postBody.length}/250</div>
+                    <div style={{"fontSize":"14pt","display":"flex","alignItems":"center","marginRight":"10px"}}>{postBody.length}/{maxLength}</div>
                     <button type="submit" className="btn" style={{"width":"70px", "alignSelf":"end", "backgroundColor":"orange"}}>Post</button>
                 </div>
             </div>
@@ -149,13 +149,13 @@ function Timeline(){
         <p className="centered-text">Loading...</p>
         :
         timeline.map((p) => {
-            return (<Comment post={p} level="0" replyFunc={()=>null} key={p.post_id} isRecord={false}/>);
+            return (<PostComponent post={p} key={p.post_id}/>);
             
         })
         }
         </div>
 
-        <button className="btn btn-warning" onClick={debugClearPosts}>DEBUG: reset</button>
+        {/*<button className="btn btn-warning" onClick={debugClearPosts}>DEBUG: reset</button>*/}
 
         </header>
     </div>
