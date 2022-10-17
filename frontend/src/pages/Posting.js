@@ -65,15 +65,13 @@ function Timeline(){
 
         // create new post
         let user = JSON.parse(localStorage.getItem("currentUser"));
-        let timestamp = Date.now();
-        let post = new Post({user:user, body: postBody, timestamp: timestamp});
-        //setNumPosts((numPosts+1));
+        let post = new Post({user:user, body: postBody});
 
         //attach image if present
         if (selectedFile != null){
             const formData = new FormData();
             formData.append("image", selectedFile);
-        
+
             // Yes I know the API key should absolutely not be here
             // In production/A2 onwards a new key will be secured on the backend
             const super_secret_api_key = "d893acba030fb10633893068fb1d5783"
