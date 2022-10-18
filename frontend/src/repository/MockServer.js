@@ -34,7 +34,7 @@ export const getMockServer = () => {
     // Define mock endpoints
     return setupServer(
         //// USER ROUTES ////
-        rest.get(base_url+'/users/', (req, res, ctx) => {
+        rest.get(base_url+'/users', (req, res, ctx) => {
             return res( ctx.json( db.users ))
         }),
         rest.get(base_url+'/users/select/:id', (req, res, ctx) => {
@@ -52,7 +52,7 @@ export const getMockServer = () => {
             // TODO: implement pw check
             return res(ctx.json({greeting: 'hello there'}))
         }),
-        rest.post(base_url+'/users/', (req, res, ctx) => {
+        rest.post(base_url+'/users', (req, res, ctx) => {
             let max_id = db.users[db.users.length - 1].user_id
             let user = req.body
             user.user_id = max_id + 1

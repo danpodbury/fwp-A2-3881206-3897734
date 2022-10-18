@@ -46,9 +46,10 @@ function SignIn() {
 
     let user = await UserRepo.verifyUser(Email, Password)
     if (user !== null){
-      alert(`Login successful! email:${Email}, pw: ${Password}`);
+      alert(`Login successful!`);
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      UserRepo.updateLocalUser(user);
+      
       nav("/");
       window.location.reload();
     } else {

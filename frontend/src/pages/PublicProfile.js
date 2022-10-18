@@ -1,30 +1,54 @@
 import '../App.css';
 import React, { useEffect } from 'react';
 import {useState} from 'react';
-// import useInput from './hooks/useInput';
-// import { ConfirmationModal } from './Modal';
+import profilePhoto1 from "../images/profilePhotos/placeholdeProfilePhoto1.jpg";
+import profilePhoto2 from "../images/profilePhotos/placeholdeProfilePhoto2.jpg";
+import profilePhoto3 from "../images/profilePhotos/placeholdeProfilePhoto3.jpg";
+import profilePhoto4 from "../images/profilePhotos/placeholdeProfilePhoto4.jpg";
+import profilePhoto5 from "../images/profilePhotos/placeholdeProfilePhoto5.jpg";
+import profilePhoto6 from "../images/profilePhotos/placeholdeProfilePhoto6.jpg";
 import NotAuthorized from './NotAuth';
 import UserPosts from '../components/UserPosts';
 import { useParams } from 'react-router-dom';
 import * as UserRepo from '../repository/User';
 import { useNavigate } from "react-router-dom";
-
+import Followers from '../components/Followers';
+import Following from '../components/Followeing'
+import * as FollowRepo from '../repository/Follow'
 
 function PublicProfile() {
     const {userId} = useParams();
     const nav = useNavigate();
     var [userDetails, setUserDetails] = useState([]);
-
-    let validUser = UserRepo.doesUserExist(userId);
+    var [validUser, setValidUser] = useState(false);
+    var [followState, setFollowState] = useState("Follow");
+    
     // Check this user exits
     useEffect(()=>{
-        if (validUser){
-            setUserDetails(UserRepo.getUserById(userId));
-        } else {
-            nav("/Error");
-            return;
+        async function validatePage(){
+            var valid = await UserRepo.doesUserExist(userId);
+            setValidUser(valid);
+            if (valid){
+                setUserDetails( await UserRepo.getUserById(userId));
+            } else {
+                nav("/Error");
+                return;
+            }
         }
+        validatePage();
+
     },[nav, userId, validUser])
+
+    // Get following state
+    useEffect(()=>{
+        async function getFollowState(){
+            var user = JSON.parse(localStorage.getItem("currentUser"));
+            var isFollowing = await FollowRepo.doesRelationExist(user.user_id, userId);
+            (isFollowing) ? setFollowState("Unfollow") : setFollowState("Follow");
+        }
+        getFollowState();
+
+    },[userId,followState])
 
       
     // Only allow members to access this page
@@ -36,7 +60,26 @@ function PublicProfile() {
         isLoggedIn = JSON.parse(isLoggedIn);
     }
     
-    console.log((isLoggedIn && validUser))
+    //Gets the profile image
+    function getProfileImg(user_id){
+        const possiblePhotos = [profilePhoto1, profilePhoto2, profilePhoto3, profilePhoto4, profilePhoto5, profilePhoto6];
+        //Randomly gets a profile photo based on id
+        return possiblePhotos[(user_id) % possiblePhotos.length];
+    }
+
+    async function handleFollow(){
+        var user = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (followState === "Follow"){
+            console.log("Now following")
+            await FollowRepo.addFollowRelation(user.user_id, userId);
+            setFollowState("Unfollow")
+        } else {
+            console.log("Unfollowing")
+            await FollowRepo.removeFollow(user.user_id, userId);
+            setFollowState("Follow")
+        }
+    }
 
     // Render
     return (
@@ -44,21 +87,35 @@ function PublicProfile() {
         {(isLoggedIn && validUser) ? 
         <div className="App">
             <div id="profile-display">
-            <header className="App-header">
-                <div className="form-container" style={{"width":"80%","margin":"10px"}}>
-                    User Profile
-                    <div>
-                        <div style={{"fontSize":"14pt","padding":"20px 0px"}}>
-                            <label>Name: {userDetails.name}</label>
-                            <div>Join date: {/*{date.toLocaleTimeString()} {date.toLocaleDateString()}*/}</div>
+                <div className="centered-profile-wrapper">
+                    <div className="form-container profile-pane container-md">
+                        <img className="profile-img" src={getProfileImg(userDetails.user_id)} alt="Profile"/>
+                        {userDetails.name}
+                        <div>
+                            <div style={{"fontSize":"14pt","padding":"20px 0px"}}>
+                                <div>Email: {userDetails.email}</div>
+                                <div>Join date: {userDetails.join_date}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" className="btn btn-primary" onClick={handleFollow} data-testid="btn-edit">{followState}</button>
                         </div>
                     </div>
+
+                    <div className="form-container profile-panel container-md">
+                        <h3>{userDetails.name}'s Followers</h3>
+                        <Followers userId={userId}/>
+                    </div>
+                    <div className="form-container profile-panel container-md">
+                        <h3>{userDetails.name} is Following</h3>
+                        <Following userId={userId}/>
+                    </div>
+
+                    <div className="form-container profile-panel container-md">
+                        <h3>{userDetails.name}'s Posts</h3>
+                        <UserPosts userId={userId}/>
+                    </div>
                 </div>
-                <div className="form-container" style={{"width":"80%"}}>
-                    User Posts
-                    <UserPosts userId={userId}/>
-                </div>
-            </header>
             </div>
             
         </div> 

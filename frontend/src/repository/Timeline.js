@@ -35,11 +35,9 @@ export async function getRootPosts(){
 
 // Read
 export async function getUserPostsById(userId){
-    // TODO : test
     const response = await axios.get(API_HOST + "/api/posts/");
-
     if(response.data !== null) {
-        return response.data.filter(p => p.user_id === userId)
+        return response.data.filter(p => p.user_id == userId)
     } else {
         return null
     }
@@ -71,10 +69,12 @@ export async function updatePostById(id, modifiedPost){
 //Delete (redact or remove completely)
 export function removeUsersPosts(userId){
     //TODO: create delete endpoint in express
+    console.log("removeUserPosts() not implemented");
 }
 
 //Delete (redact)
 export function redactPostById(postId){
+    
     // var timeline = retrieveTimeline();
 
     // // search and redact the post with this id

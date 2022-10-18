@@ -27,7 +27,6 @@ function Profile() {
     };
 
     const handleDelete = () => {
-        //var userRecords = JSON.parse(localStorage.getItem("users"));
         var currentUser = JSON.parse(localStorage.getItem("currentUser"));
     
         TimelineRepo.removeUsersPosts(currentUser.id)
@@ -47,8 +46,8 @@ function Profile() {
         <div className="App">
             <div id="profile-display">
             <div className="centered-profile-wrapper">
-                <div className="form-container" style={{"width":"80%","margin":"10px"}}>
-                    My Profile
+                <div className="form-container profile-panel container-md">
+                    <h3>My Profile</h3>
                     
                     {isEdit ? 
                     <EditProfile handleEdit={event => handleEdit()}/> : 
@@ -56,8 +55,8 @@ function Profile() {
 
                     <ConfirmationModal buttonText={"Delete Account"} onConfirm={handleDelete} confirmText={"Yes, Delete Account"} body={"Deleting your account is permanent!!<br/> Are you absolutely sure you want to continue?"}/>
                 </div>
-                <div className="form-container" style={{"width":"80%"}}>
-                    My Posts
+                <div className="form-container profile-panel container-md">
+                    <h3>My Posts</h3>
                     <UserPosts userId={userDetails.user_id}/>
                 </div>
             </div>
@@ -100,15 +99,10 @@ function EditProfile({handleEdit}){
     // Update localStorage on submit
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        //alert(`Updating Name => ${Name} \n Email => ${Email}`);
 
-        // get user records
-        //var userRecords = JSON.parse(localStorage.getItem("users"));
-        
-        // update current user record
         currentUser.name = Name;
         currentUser.email = Email;
-        // localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        UserRepo.updateLocalUser(currentUser);
 
         // post to backend
         UserRepo.updateUser(currentUser);
