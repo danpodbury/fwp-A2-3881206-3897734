@@ -15,12 +15,17 @@ db.sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
 // Include models.
 db.user = require("./models/user.js")(db.sequelize, DataTypes);
 db.post = require("./models/post.js")(db.sequelize, DataTypes);
+db.reaction = require("./models/reaction.js")(db.sequelize, DataTypes);
+
 
 // Relate post and user.
 db.post.belongsTo(db.user, { foreignKey: { name: "user_id", allowNull: false } });
+
 db.post.hasMany(db.post, { foreignKey: { name: "children", allowNull: true } });
 db.post.belongsTo(db.post, { foreignKey: { name: "parent", allowNull: true } });
 
+db.reaction.belongsTo(db.post, { foreignKey: { name: "post_id", allowNull: false } });
+db.reaction.belongsTo(db.user, { foreignKey: { name: "user_id", allowNull: false } });
 
 
 // Learn more about associations here: https://sequelize.org/master/manual/assocs.html
