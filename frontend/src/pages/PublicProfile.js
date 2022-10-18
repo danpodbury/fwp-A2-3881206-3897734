@@ -52,10 +52,10 @@ function PublicProfile() {
             <div id="profile-display">
             <header className="App-header">
                 <div className="form-container" style={{"width":"80%","margin":"10px"}}>
-                    User Profile
+                    {userDetails.name}
                     <div>
                         <div style={{"fontSize":"14pt","padding":"20px 0px"}}>
-                            <label>Name: {userDetails.name}</label>
+                            <div>Email: {userDetails.email}</div>
                             <div>Join date: {userDetails.join_date}</div>
                         </div>
                     </div>
