@@ -29,7 +29,7 @@ function PostComponent({post}){
             setLoading(false);
         }
 
-    });
+    },[loading, post.post_id]);
 
     const ModalContent = ()=>{
         const [textBoxValue, setTextBoxValue] = useState("");

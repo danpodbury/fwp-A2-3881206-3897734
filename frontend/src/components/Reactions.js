@@ -22,7 +22,7 @@ function Reaction({postId}) {
             });
             setLoading(false);
         }
-    });
+    },[loading, postId]);
 
     //List of valid reactions
     const validReactions = ["smiley","cryingLaughing","nervous","loveSmile","crying"];
