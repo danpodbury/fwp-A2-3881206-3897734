@@ -19,6 +19,6 @@ module.exports = (express, app) => {
     router.delete("/:pub/:sub", controller.destroy);
   
     // Add routes to server.
-    app.use("/api/follow", router);
+    app.use("/api/follows", router);
   };
   
