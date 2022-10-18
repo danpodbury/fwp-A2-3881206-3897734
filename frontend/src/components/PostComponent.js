@@ -9,6 +9,7 @@ import profilePhoto5 from "../images/profilePhotos/placeholdeProfilePhoto5.jpg";
 import profilePhoto6 from "../images/profilePhotos/placeholdeProfilePhoto6.jpg";
 import Reactions from "./Reactions";
 import * as TimelineRepo from '../repository/Timeline';
+import * as UserRepo from '../repository/User';
 import { ConfirmationModal } from "./Modal";
 import {Link} from "react-router-dom";
 
@@ -19,6 +20,7 @@ function PostComponent({post}){
     const maxLength = 600;
 
     const [replies, setReplies] = useState([]);
+    const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -26,10 +28,13 @@ function PostComponent({post}){
             TimelineRepo.getPostsByParentId(post.post_id).then((result) => {
                 setReplies(result);
             });
+            UserRepo.getUserById(post.user_id).then((result) => {
+                setUser(result);
+            });
             setLoading(false);
         }
 
-    },[loading, post.post_id]);
+    },[loading, post, user]);
 
     const ModalContent = ()=>{
         const [textBoxValue, setTextBoxValue] = useState("");
@@ -72,7 +77,7 @@ function PostComponent({post}){
                 <span className="display-inline">
                 <Link to={`/user/${post.user_id}`}>
                     <img className="profile-img" src={getProfileImg()} alt="Profile"/>
-                    <hp class="card-title">{post.name}</hp>
+                    <hp class="card-title">{user.name}</hp>
                 </Link>
                 </span>
                 <h6 class="card-subtitle mb-2 text-muted">Posted on: {post.timestamp}</h6>
