@@ -62,7 +62,6 @@ export async function verifyUser(email, password) {
 // Read
 export async function doesUserExist(id){
     const response = await axios.get(API_HOST + `/api/users/select/${id}`);
-    console.log("doesUserExist response: " + (response.data !== null));
     return (response.data !== null)
 }
 

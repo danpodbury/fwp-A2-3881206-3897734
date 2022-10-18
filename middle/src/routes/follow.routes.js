@@ -6,10 +6,10 @@ module.exports = (express, app) => {
     // Select all follower relations
     router.get("/", controller.all);
 
-    // Select all follower relations
+    // Select all subscribers to a publisher
     router.get("/subs/:pub", controller.subs);
 
-    // Select all follower relations
+    // Select all publishers to a subscriber
     router.get("/pubs/:sub", controller.pubs);
 
     // Establish a follower relationship

@@ -14,13 +14,15 @@ import * as UserRepo from '../repository/User';
 import { useNavigate } from "react-router-dom";
 import Followers from '../components/Followers';
 import Following from '../components/Followeing'
+import * as FollowRepo from '../repository/Follow'
 
 function PublicProfile() {
     const {userId} = useParams();
     const nav = useNavigate();
     var [userDetails, setUserDetails] = useState([]);
     var [validUser, setValidUser] = useState(false);
-
+    var [followState, setFollowState] = useState("Follow");
+    
     // Check this user exits
     useEffect(()=>{
         async function validatePage(){
@@ -36,6 +38,17 @@ function PublicProfile() {
         validatePage();
 
     },[nav, userId, validUser])
+
+    // Get following state
+    useEffect(()=>{
+        async function getFollowState(){
+            var user = JSON.parse(localStorage.getItem("currentUser"));
+            var isFollowing = await FollowRepo.doesRelationExist(user.user_id, userId);
+            (isFollowing) ? setFollowState("Unfollow") : setFollowState("Follow");
+        }
+        getFollowState();
+
+    },[userId,followState])
 
       
     // Only allow members to access this page
@@ -54,6 +67,20 @@ function PublicProfile() {
         return possiblePhotos[(user_id) % possiblePhotos.length];
     }
 
+    async function handleFollow(){
+        var user = JSON.parse(localStorage.getItem("currentUser"));
+
+        if (followState === "Follow"){
+            console.log("Now following")
+            await FollowRepo.addFollowRelation(user.user_id, userId);
+            setFollowState("Unfollow")
+        } else {
+            console.log("Unfollowing")
+            await FollowRepo.removeFollow(user.user_id, userId);
+            setFollowState("Follow")
+        }
+    }
+
     // Render
     return (
         <>
@@ -69,6 +96,9 @@ function PublicProfile() {
                                 <div>Email: {userDetails.email}</div>
                                 <div>Join date: {userDetails.join_date}</div>
                             </div>
+                        </div>
+                        <div>
+                            <button type="button" className="btn btn-primary" onClick={handleFollow} data-testid="btn-edit">{followState}</button>
                         </div>
                     </div>
 

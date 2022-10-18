@@ -102,6 +102,7 @@ function EditProfile({handleEdit}){
 
         currentUser.name = Name;
         currentUser.email = Email;
+        UserRepo.updateLocalUser(currentUser);
 
         // post to backend
         UserRepo.updateUser(currentUser);

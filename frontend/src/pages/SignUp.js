@@ -44,8 +44,9 @@ function SignUp() {
     let newUser = UserRepo.registerUser(user);
 
     if (newUser !== null){
+      //TODO: I think this is broken. Doesn't update currentUser correctly
       alert(`Successfuly signed up as ${Name}`);
-      localStorage.setItem("currentUser", JSON.stringify(newUser));
+      UserRepo.updateLocalUser(newUser);
       localStorage.setItem("isLoggedIn", "true");
       nav("/");
       window.location.reload();
