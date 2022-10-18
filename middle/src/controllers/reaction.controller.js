@@ -10,7 +10,7 @@ exports.all = async (req, res) => {
 
 // Create a reaction in the database.
 exports.create = async (req, res) => {
-  console.log("Adding reaction: "+ JSON.stringify(req.body));
+  //console.log("Adding reaction: "+ JSON.stringify(req.body));
   
   const existing = await db.reaction.findOne({ 
     where: { 
@@ -18,10 +18,21 @@ exports.create = async (req, res) => {
       post_id: req.body.post_id,  
     } 
   });
-  console.log(existing);
+  //console.log(existing);
 
   if (existing){
     console.log("existing reaction, updating")
+    const reaction = await db.reaction.findOne({ 
+      where: { 
+        user_id: req.body.user_id,  
+        post_id: req.body.post_id,  
+      } 
+    });
+  
+    reaction.set({
+      type: req.body.type
+    });
+    await reaction.save();
 
   } else {
     console.log("new, adding")
@@ -30,6 +41,8 @@ exports.create = async (req, res) => {
       post_id: req.body.post_id, 
       type: req.body.type
     });
+    await reaction.save();
+
   }
 
   res.json(req.body);
@@ -37,7 +50,7 @@ exports.create = async (req, res) => {
 
 // Update a reaction in the database.
 exports.update = async (req, res) => {
-  console.log("Update reaction: "+ JSON.stringify(req.body));
+  //console.log("Update reaction: "+ JSON.stringify(req.body));
   const reaction = await db.reaction.findOne({ 
     where: { 
       user_id: req.body.user_id,  
@@ -48,6 +61,7 @@ exports.update = async (req, res) => {
   reaction.set({
     type: req.body.type
   });
+  console.log("reaction: " + reaction);
   
   await reaction.save();
   res.json(reaction);
