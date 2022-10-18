@@ -1,5 +1,6 @@
 import {useState, useEffect } from 'react';
 import * as FollowerRepo from '../repository/Follow';
+import UserTile from './UserTile';
 
 function Followers({userId}) {
     var [followers, setFollowers] = useState([]);
@@ -23,7 +24,7 @@ function Followers({userId}) {
         <p className="centered-text">Loading...</p>
         :
         followers.map((follow) => {
-            return (<li>{follow.subscriber_id}</li>);
+            return (<UserTile userId={follow.subscriber_id} />);
         })
     }
     </>);
