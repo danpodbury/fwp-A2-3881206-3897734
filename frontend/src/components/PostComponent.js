@@ -9,7 +9,6 @@ import profilePhoto5 from "../images/profilePhotos/placeholdeProfilePhoto5.jpg";
 import profilePhoto6 from "../images/profilePhotos/placeholdeProfilePhoto6.jpg";
 import Reactions from "./Reactions";
 import * as TimelineRepo from '../repository/Timeline';
-import * as ReactionRepo from '../repository/Reaction';
 import { ConfirmationModal } from "./Modal";
 
 //Is passed a post obj through

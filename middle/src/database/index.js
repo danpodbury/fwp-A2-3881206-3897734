@@ -27,6 +27,8 @@ db.post.belongsTo(db.post, { foreignKey: { name: "parent", allowNull: true } });
 db.reaction.belongsTo(db.post, { foreignKey: { name: "post_id", allowNull: false } });
 db.reaction.belongsTo(db.user, { foreignKey: { name: "user_id", allowNull: false } });
 
+db.follow.belongsTo(db.user, { foreignKey: { name: "publisher_id", allowNull: false } });
+db.follow.belongsTo(db.user, { foreignKey: { name: "subscriber_id", allowNull: false } });
 
 // Learn more about associations here: https://sequelize.org/master/manual/assocs.html
 
