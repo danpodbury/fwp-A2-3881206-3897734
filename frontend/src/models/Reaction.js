@@ -1,4 +1,4 @@
-class Reaction{
+export class Reaction{
     constructor({post_id, user, type}) {
       this.reaction_id = null;
       this.post_id = post_id;
