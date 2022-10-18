@@ -10,6 +10,7 @@ import profilePhoto6 from "../images/profilePhotos/placeholdeProfilePhoto6.jpg";
 import Reactions from "./Reactions";
 import * as TimelineRepo from '../repository/Timeline';
 import { ConfirmationModal } from "./Modal";
+import {Link} from "react-router-dom";
 
 //Is passed a post obj through
 function PostComponent({post}){
@@ -69,8 +70,10 @@ function PostComponent({post}){
         <div className="card behind-content" style={{margin: "20px"}}>
             <div class="card-body">
                 <span className="display-inline">
+                <Link to={`/user/${post.user_id}`}>
                     <img className="profile-img" src={getProfileImg()} alt="Profile"/>
                     <hp class="card-title">{post.name}</hp>
+                </Link>
                 </span>
                 <h6 class="card-subtitle mb-2 text-muted">Posted on: {post.timestamp}</h6>
                 <p class="card-text">{post.body}</p>
