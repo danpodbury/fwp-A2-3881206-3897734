@@ -80,7 +80,9 @@ function PostComponent({post}){
                     <hp class="card-title">{user.name}</hp>
                 </Link>
                 </span>
-                <h6 class="card-subtitle mb-2 text-muted">Posted on: {post.timestamp}</h6>
+                {/*<h6 class="card-subtitle mb-2 text-muted">Posted on: {Date.parse(post.timestamp).toLocal}</h6>*/}
+                <h6  className='date'> {new Date(post.timestamp).toLocaleDateString()} </h6 >
+                <h6  className='time'> {new Date(post.timestamp).toLocaleTimeString()}</h6 >
                 <p class="card-text">{post.body}</p>
                 {
                     post.imageURL ?
