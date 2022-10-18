@@ -3,13 +3,13 @@ import * as FollowerRepo from '../repository/Follow';
 
 function Following({userId}) {
     var [followees, setFollowees] = useState([]);
-    var [loading, setLoading] = useState(false);
+    var [loading, setLoading] = useState(true);
 
     // Check this user exits
     useEffect(()=>{
         async function loadFollowees(){
             setFollowees( await FollowerRepo.getFollowees(userId) );
-            setLoading(true);
+            setLoading(false);
         }
         loadFollowees();
 
