@@ -4,7 +4,7 @@ import loveSmileSvg from '../images/reactions/love-smile.svg';
 import nervousSvg from '../images/reactions/nervous.svg';
 import cryingLaugingSvg from '../images/reactions/crying-laughing.svg';
 import "./Reactions.css"
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import * as ReactionRepo from '../repository/Reaction';
 import * as Model from '../models/Reaction.js';
 
@@ -12,6 +12,17 @@ import * as Model from '../models/Reaction.js';
 function Reaction({postId}) {
     //Keeps track of user current reaction
     const [userReaction, setUserReaction] = useState("");
+    const [reactions, setReactions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (loading){
+            ReactionRepo.getPostReactions(postId).then((result) => {
+                setReactions(result);
+            });
+            setLoading(false);
+        }
+    });
 
     //List of valid reactions
     const validReactions = ["smiley","cryingLaughing","nervous","loveSmile","crying"];
@@ -40,14 +51,24 @@ function Reaction({postId}) {
 
     return(
         <div>
-        <div class="btn-group" aria-label="Basic radio toggle button group" onChange={event=>onReaction(event)}>
-        {validReactions.map((reaction)=>(
             <div>
-            <input type="radio" class="btn-check" name={`radioButton${postId}`} id={reaction+postId} autocomplete="off" value={reaction}/>
-            <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/></label>
+                {
+                    loading ? 
+                    <p className="centered-text">Loading...</p>
+                    :
+                    reactions.map((r) => {
+                        return (<img src={images[validReactions[r.type]]} alt={validReactions[r.type]} className='reaction-img'/>);
+                    })
+                }
             </div>
-        ))}
-        </div>
+            <div class="btn-group" aria-label="Basic radio toggle button group" onChange={event=>onReaction(event)}>
+            {validReactions.map((reaction)=>(
+                <div>
+                <input type="radio" class="btn-check" name={`radioButton${postId}`} id={reaction+postId} autocomplete="off" value={reaction}/>
+                <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/></label>
+                </div>
+            ))}
+            </div>
         </div>
     );
 }
