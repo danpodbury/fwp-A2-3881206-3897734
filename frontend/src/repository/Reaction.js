@@ -9,23 +9,22 @@ const API_HOST = "http://localhost:4000";
 // Read
 export async function getPostReactions(postId){
     const response = await axios.get(API_HOST + "/api/reactions/");
-    //TODO: filter by id
-
-    return response.data;
+    if(response.data !== null) {
+        return (response.data.filter(r => r.post_id === postId));
+    } else {
+        throw Error("Cannot retreive reactions");
+    }
 }
 
 // export async function addReaction(reaction){
 //     console.log("adding reaction: " + reaction)
-
 //     const response = await axios.post(API_HOST + "/api/reaction/", reaction);
-
 //     return response.data;
 // }
 
 // // Update
 // export async function changeReaction(reaction){
 //     const response = await axios.patch(API_HOST + "/api/reaction/" + reaction.id, reaction);
-
 //     return response.data;
 // }
 
