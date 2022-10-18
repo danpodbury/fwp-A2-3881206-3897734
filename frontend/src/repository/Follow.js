@@ -15,7 +15,7 @@ export async function addFollowRelation(subscriberId, publisherId){
     return response.data;
 }
 
-// Read
+// Read (Get users following this publisher)
 export async function getFollowers(PublisherId){
     const response = await axios.get(API_HOST + "/api/follows/subs/"+PublisherId);
     if(response.data !== null) {
@@ -24,7 +24,7 @@ export async function getFollowers(PublisherId){
         throw Error("Cannot retreive followers");
     }
 }
-// Read
+// Read (Get users this subscriber follows)
 export async function getFollowees(subscriberId){
     const response = await axios.get(API_HOST + "/api/follows/pubs/"+ subscriberId);
     if(response.data !== null) {

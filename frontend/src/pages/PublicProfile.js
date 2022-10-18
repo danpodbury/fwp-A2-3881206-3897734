@@ -14,16 +14,22 @@ function PublicProfile() {
     const {userId} = useParams();
     const nav = useNavigate();
     var [userDetails, setUserDetails] = useState([]);
+    var [validUser, setValidUser] = useState(false);
 
-    let validUser = UserRepo.doesUserExist(userId);
     // Check this user exits
     useEffect(()=>{
-        if (validUser){
-            setUserDetails(UserRepo.getUserById(userId));
-        } else {
-            nav("/Error");
-            return;
+        async function validatePage(){
+            var valid = await UserRepo.doesUserExist(userId);
+            setValidUser(valid);
+            if (valid){
+                setUserDetails( await UserRepo.getUserById(userId));
+            } else {
+                nav("/Error");
+                return;
+            }
         }
+        validatePage();
+
     },[nav, userId, validUser])
 
       
@@ -36,7 +42,7 @@ function PublicProfile() {
         isLoggedIn = JSON.parse(isLoggedIn);
     }
     
-    console.log((isLoggedIn && validUser))
+    //console.log((isLoggedIn && validUser))
 
     // Render
     return (
@@ -50,7 +56,7 @@ function PublicProfile() {
                     <div>
                         <div style={{"fontSize":"14pt","padding":"20px 0px"}}>
                             <label>Name: {userDetails.name}</label>
-                            <div>Join date: {/*{date.toLocaleTimeString()} {date.toLocaleDateString()}*/}</div>
+                            <div>Join date: {userDetails.join_date}</div>
                         </div>
                     </div>
                 </div>

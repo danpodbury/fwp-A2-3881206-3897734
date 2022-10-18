@@ -27,7 +27,6 @@ function Profile() {
     };
 
     const handleDelete = () => {
-        //var userRecords = JSON.parse(localStorage.getItem("users"));
         var currentUser = JSON.parse(localStorage.getItem("currentUser"));
     
         TimelineRepo.removeUsersPosts(currentUser.id)
