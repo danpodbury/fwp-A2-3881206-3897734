@@ -24,7 +24,7 @@ function SignUp() {
   
   useEffect(()=>{
     let strength = zxcvbn(Password).score
-    console.log(strength);
+    //console.log(strength);
   },[Password])
 
   // Attempt signup
@@ -41,10 +41,8 @@ function SignUp() {
     var user = new User(-1, Name, Email, Password, Date.now());
 
     //todo: check if user already exists
-    let newUser = UserRepo.registerUser(user);
-
+    let newUser = await UserRepo.registerUser(user);
     if (newUser !== null){
-      //TODO: I think this is broken. Doesn't update currentUser correctly
       alert(`Successfuly signed up as ${Name}`);
       UserRepo.updateLocalUser(newUser);
       localStorage.setItem("isLoggedIn", "true");
@@ -88,7 +86,7 @@ function SignUp() {
             <label style={{"fontSize":"8pt"}}>You are required to use a sufficiently strong password. Password must be more than 5 characters.</label>
 
           </div>
-          <button type="submit" className="btn" style={{"backgroundColor":"orange","width":"100%"}}>Create Account</button>
+          <button type="submit" className="btn" style={{"backgroundColor":"orange","width":"100%"}} data-testid="form-submit">Create Account</button>
         </form>
       </div>
       </header>

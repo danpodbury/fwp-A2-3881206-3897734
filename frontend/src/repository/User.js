@@ -15,7 +15,6 @@ export function updateLocalUser(currentUser){
 export async function registerUser(user){
     const response = await axios.post(API_HOST + "/api/users", user);
     if(user !== null) {
-        updateLocalUser(user);
         return response.data;
     } else {
         return null
