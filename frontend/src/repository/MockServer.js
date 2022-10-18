@@ -18,7 +18,12 @@ export const getMockDatabase = () => {
         {"post_id":4, "user_id": 4, "body":"reply",                        "imageURL": null, "timestamp":null, "parent_id":3, "children_ids":null}
     ]
 
-    return {"users":users, "posts": posts}  
+    let reactions = [
+        {"reaction_id":1, "post_id":3, "user_id": 1, "type":2 },
+        {"reaction_id":2, "post_id":1, "user_id": 4, "type":0 },
+    ]
+
+    return {"users":users, "posts": posts, "reactions": reactions}  
 }
 
 export const getMockServer = () => {
@@ -101,6 +106,32 @@ export const getMockServer = () => {
         }),
         rest.delete(base_url+'/posts/:id', (req, res, ctx) => {
             db.posts = db.posts.filter(p => { return p.post_id !== req.params.id });
+            return res(ctx.json())
+        }),
+
+
+        //// REACTION ROUTES ////
+        rest.get(base_url+'/reaction/', (req, res, ctx) => {
+            return res( ctx.json( db.reactions ))
+        }),
+        rest.patch(base_url+'/reaction/:id', (req, res, ctx) => {
+            //update reaction record
+            db.reactions = db.reactions.map( r => {
+                return r.reaction_id === parseInt(req.params.id) ? req.body : r;
+            })
+
+            return res( ctx.json( db.reactions.find( r => r.reaction_id  === parseInt(req.params.id)) ))
+        }),
+        rest.post(base_url+'/reaction/', (req, res, ctx) => {
+            let max_id = db.reactions[db.reactions.length - 1].reaction_id
+            let reaction = req.body
+            reaction.reaction_id = max_id + 1
+
+            db.reactions.push(reaction)
+            return res(ctx.json(reaction))
+        }),
+        rest.delete(base_url+'/reaction/:id', (req, res, ctx) => {
+            db.reactions = db.reactions.filter(r => { return r.reaction_id !== req.params.id });
             return res(ctx.json())
         }),
     )

@@ -4,37 +4,73 @@ import loveSmileSvg from '../images/reactions/love-smile.svg';
 import nervousSvg from '../images/reactions/nervous.svg';
 import cryingLaugingSvg from '../images/reactions/crying-laughing.svg';
 import "./Reactions.css"
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import * as ReactionRepo from '../repository/Reaction';
+import * as Model from '../models/Reaction.js';
 
 
 function Reaction({postId}) {
     //Keeps track of user current reaction
     const [userReaction, setUserReaction] = useState("");
+    const [reactions, setReactions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (loading){
+            ReactionRepo.getPostReactions(postId).then((result) => {
+                setReactions(result);
+            });
+            setLoading(false);
+        }
+    },[loading, postId]);
+
     //List of valid reactions
     const validReactions = ["smiley","cryingLaughing","nervous","loveSmile","crying"];
     const images = {"smiley":smileySvg,"cryingLaughing":cryingLaugingSvg,"nervous":nervousSvg,"loveSmile":loveSmileSvg,"crying":cryingSvg};
+   
     function onReaction(event){
-    //Checks if reaction is valid
-    if(validReactions.includes(event.target.value)){
-      setUserReaction(event.target.value);
-      //TODO: Update the database
+        event.preventDefault()
+
+        //Checks if reaction is valid
+        if(validReactions.includes(event.target.value)){
+
+            setUserReaction(event.target.value);
+            console.log("Reaction: " + event.target.value);
+
+            // Add new reaction or update existing
+            let user = JSON.parse(localStorage.getItem("currentUser"));
+            let type = validReactions.indexOf(event.target.value)
+
+            let reaction = new Model.Reaction({post_id: postId, user: user, type: type});
+            ReactionRepo.setReaction(reaction);
+        }
+        else{
+            console.log("Reaction: " + event.target.value + " is not a valid reaction");
+        }
     }
-    else{
-      console.log("Reaction: " + event.target.value + " is not a valid reaction");
-    }
-  }
-  return(
-    <div>
-    <div class="btn-group" aria-label="Basic radio toggle button group" onChange={event=>onReaction(event)}>
-      {validReactions.map((reaction)=>(
+
+    return(
         <div>
-          <input type="radio" class="btn-check" name={`radioButton${postId}`} id={reaction+postId} autocomplete="off" value={reaction}/>
-          <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/></label>
+            <div>
+                {
+                    loading ? 
+                    <p className="centered-text">Loading...</p>
+                    :
+                    reactions.map((r) => {
+                        return (<img src={images[validReactions[r.type]]} alt={validReactions[r.type]} className='reaction-img'/>);
+                    })
+                }
+            </div>
+            <div class="btn-group" aria-label="Basic radio toggle button group" onChange={event=>onReaction(event)}>
+            {validReactions.map((reaction)=>(
+                <div>
+                <input type="radio" class="btn-check" name={`radioButton${postId}`} id={reaction+postId} autocomplete="off" value={reaction}/>
+                <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/></label>
+                </div>
+            ))}
+            </div>
         </div>
-      ))}
-    </div>
-    </div>
-   );
+    );
 }
 
 export default Reaction;
