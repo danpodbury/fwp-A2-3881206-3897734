@@ -149,7 +149,7 @@ function Timeline(){
         <p className="centered-text">Loading...</p>
         :
         timeline.map((p) => {
-            return (<PostComponent post={p} key={p.post_id}/>);
+            return (<PostComponent post={p} key={"post"+p.post_id}/>);
             
         })
         }

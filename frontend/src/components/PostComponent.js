@@ -93,7 +93,7 @@ function PostComponent({post}){
             </div>
             <div className="card-footer inline-spread" role="group">
                 <ConfirmationModal buttonText={"Reply"} onConfirm={ReplyToPost} confirmText={"Reply"} confirmStyling={"btn-success"} buttonStyling={"btn-secondary"} body={<ModalContent/>}/>
-                <Reactions postId={post.post_id} key={post.post_id}/>
+                <Reactions postId={post.post_id} key={"reaction"+post.post_id}/>
             </div>
 
             {

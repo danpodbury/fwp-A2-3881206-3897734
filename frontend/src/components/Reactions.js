@@ -13,7 +13,7 @@ function Reaction({postId}) {
     //Keeps track of user current reaction
     const [userReaction, setUserReaction] = useState("");
     const [reactionCounts, setReactionCounts] = useState({"smiley":0,"cryingLaughing":0,"nervous":0,"loveSmile":0,"crying":0});
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     /*
     useEffect(() => {
         if (loading){
@@ -32,11 +32,12 @@ function Reaction({postId}) {
     const images = {"smiley":smileySvg,"cryingLaughing":cryingLaugingSvg,"nervous":nervousSvg,"loveSmile":loveSmileSvg,"crying":cryingSvg};
    
     useEffect(() => {
-        var currentReactionCounts = reactionCounts;
+        var currentReactionCounts = {"smiley":0,"cryingLaughing":0,"nervous":0,"loveSmile":0,"crying":0};
         const currentUser = JSON.parse(localStorage.getItem("currentUser"));
         //Gets post reactions from db
         console.log("retreiving reactions from db...");
         ReactionRepo.getPostReactions(postId).then((result) => {
+            //console.log(result);
             //Loops through every value
             result.forEach(element => {
                 const reaction = validReactions[element.type];
@@ -45,21 +46,29 @@ function Reaction({postId}) {
                 }
                 currentReactionCounts[reaction] = currentReactionCounts[reaction] + 1 || 1; //Increments the reaction counts
             });
+            setReactionCounts(currentReactionCounts);
         });
         //Sets the reaction counts back
-        setReactionCounts(currentReactionCounts);
+        
     },[]);
 
     function onReaction(event){
         //Checks if reaction is valid
         if(validReactions.includes(event.target.value)){
 
+            //Decreases reaction of the previous reacted to post
+            var oldReactionCounts = reactionCounts;
+            oldReactionCounts[userReaction] = oldReactionCounts[userReaction] - 1;
+            //Sets the reaction value to the new
             setUserReaction(event.target.value);
-            console.log("Reaction: " + event.target.value);
+            //Increments the new value for reaction counts
+            oldReactionCounts[event.target.value] = oldReactionCounts[event.target.value] + 1;
+            //Sets the counts again
+            setReactionCounts(oldReactionCounts);
 
             // Add new reaction or update existing
             let user = JSON.parse(localStorage.getItem("currentUser"));
-            let type = validReactions.indexOf(event.target.value)
+            let type = validReactions.indexOf(event.target.value);
 
             let reaction = new Model.Reaction({post_id: postId, user: user, type: type});
             ReactionRepo.setReaction(reaction);
@@ -86,8 +95,8 @@ function Reaction({postId}) {
             <div class="btn-group" aria-label="Basic radio toggle button group" onChange={event=>onReaction(event)}>
             {validReactions.map((reaction)=>(
                 <div>
-                <input type="radio" class="btn-check" name={`radioButton${postId}`} id={reaction+postId} autocomplete="off" value={reaction}/>
-                <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/><span className='white-text'>{reactionCounts.reaction}</span></label>
+                <input type="radio" class="btn-check" name={`radioButton${postId}`} id={reaction+postId} autocomplete="off" value={reaction} checked={userReaction === reaction} onChange={e => {}}/>
+                <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/><span className='white-text'>{reactionCounts[reaction]}</span></label>
                 </div>
             ))}
             </div>
