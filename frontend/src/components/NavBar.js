@@ -17,11 +17,16 @@ function NavBar() {
           </div>
           <div style={{"height":"50px", "fontSize":"20pt","fontWeight":"bolder", "display":"flex", "color":"orange"}}>
           <span>
-            
           </span>
           </div>
 
-          {isLoggedIn === "true" ? <div className='nav-button'><Link to ="/post" >Posting</Link></div> : <></>}
+          {isLoggedIn === "true" ?
+          <>
+          <div className='nav-button'><Link to ="/post" >Posting</Link></div> 
+          <div className='nav-button'><Link to ="/feed" >Feed</Link></div> 
+          </>
+          : 
+          <></>}
 
           {isLoggedIn === "true" ? <MemberBar/> : <GuestBar/>}
 

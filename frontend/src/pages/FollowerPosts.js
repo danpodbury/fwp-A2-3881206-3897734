@@ -17,6 +17,7 @@ function FolowerPosts(){
 
     useEffect(() => {
         setLoading(true);
+        //Should get the posts of all the user is following
         TimelineRepo.getRootPosts().then((result) => {
             setLoading(false);
             setTimeline(result);
@@ -26,7 +27,7 @@ function FolowerPosts(){
     
     return (
         <div className="App">
-        <header className="App-header" style={{"justifyContent":"start","paddingTop":"160px","paddingBottom":"100px"}}>
+        <header className="App-header" style={{"justifyContent":"start","paddingBottom":"100px"}}>
         <div style={{"width":"80%","maxWidth":"800px"}}>
         {
         loading ? 
@@ -34,7 +35,6 @@ function FolowerPosts(){
         :
         timeline.map((p) => {
             return (<PostComponent post={p} key={"post"+p.post_id}/>);
-            
         })
         }
         </div>

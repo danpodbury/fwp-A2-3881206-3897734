@@ -7,6 +7,7 @@ import App from './App';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import FollowerPosts from './pages/FollowerPosts';
 import Profile from './pages/Profile';
 import Posting from './pages/Posting';
 import Sandbox from './pages/Sandbox';
@@ -33,6 +34,7 @@ root.render(
         <Route index element={<Home />} />
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/signin" element={<SignIn />}></Route>
+        <Route path="/feed" element={<FollowerPosts/>}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/post" element={<Posting />}></Route>
         <Route path="/user/-1" element={<ErrorUser/>}></Route>
