@@ -9,6 +9,7 @@ import UserPosts from '../components/UserPosts';
 import * as UserRepo from '../repository/User';
 import * as TimelineRepo from '../repository/Timeline';
 import { useNavigate } from "react-router-dom";
+import Following from './Following';
 
 
 function Profile() {
@@ -54,6 +55,10 @@ function Profile() {
                     <StaticProfile handleEdit={event => handleEdit()}/>}
 
                     <ConfirmationModal buttonText={"Delete Account"} onConfirm={handleDelete} confirmText={"Yes, Delete Account"} body={"Deleting your account is permanent!!<br/> Are you absolutely sure you want to continue?"}/>
+                </div>
+                <div className="form-container profile-panel container-md">
+                    <h3>Following:</h3>
+                    <Following/>
                 </div>
                 <div className="form-container profile-panel container-md">
                     <h3>My Posts</h3>
