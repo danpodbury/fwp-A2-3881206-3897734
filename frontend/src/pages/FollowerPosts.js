@@ -5,6 +5,7 @@ import useInput from '../hooks/useInput';
 import * as TimelineRepo from '../repository/Timeline';
 import { useState, useEffect } from 'react';
 import PostComponent from '../components/PostComponent';
+import { getFeed } from '../repository/Follow';
 
 // Timeline for members to view and post
 function FolowerPosts(){
@@ -14,13 +15,14 @@ function FolowerPosts(){
     //Set up posting form
     const [loading, setLoading] = useState(true);
     const [timeline, setTimeline] = useState([]);
+    const [feed, setFeed] = useState([]);
 
     useEffect(() => {
         setLoading(true);
-        //Should get the posts of all the user is following
-        TimelineRepo.getRootPosts().then((result) => {
+        let user = JSON.parse(localStorage.getItem("currentUser"));
+        getFeed(user.user_id).then((result) => {
             setLoading(false);
-            setTimeline(result);
+            setFeed(result);
         });
     }, []);
 
@@ -33,7 +35,7 @@ function FolowerPosts(){
         loading ? 
         <p className="centered-text">Loading...</p>
         :
-        timeline.map((p) => {
+        feed.map((p) => {
             return (<PostComponent post={p} key={"post"+p.post_id}/>);
         })
         }
