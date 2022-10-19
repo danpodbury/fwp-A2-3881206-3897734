@@ -12,9 +12,9 @@ import * as Model from '../models/Reaction.js';
 function Reaction({postId}) {
     //Keeps track of user current reaction
     const [userReaction, setUserReaction] = useState("");
-    const [reactions, setReactions] = useState([]);
+    const [reactionCounts, setReactionCounts] = useState({"smiley":0,"cryingLaughing":0,"nervous":0,"loveSmile":0,"crying":0});
     const [loading, setLoading] = useState(true);
-
+    /*
     useEffect(() => {
         if (loading){
             ReactionRepo.getPostReactions(postId).then((result) => {
@@ -23,14 +23,34 @@ function Reaction({postId}) {
             setLoading(false);
         }
     },[loading, postId]);
+    */
+
+
 
     //List of valid reactions
     const validReactions = ["smiley","cryingLaughing","nervous","loveSmile","crying"];
     const images = {"smiley":smileySvg,"cryingLaughing":cryingLaugingSvg,"nervous":nervousSvg,"loveSmile":loveSmileSvg,"crying":cryingSvg};
    
-    function onReaction(event){
-        event.preventDefault()
+    useEffect(() => {
+        var currentReactionCounts = reactionCounts;
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        //Gets post reactions from db
+        console.log("retreiving reactions from db...");
+        ReactionRepo.getPostReactions(postId).then((result) => {
+            //Loops through every value
+            result.forEach(element => {
+                const reaction = validReactions[element.type];
+                if(element.user_id === currentUser.user_id){
+                    setUserReaction(reaction);
+                }
+                currentReactionCounts[reaction] = currentReactionCounts[reaction] + 1 || 1; //Increments the reaction counts
+            });
+        });
+        //Sets the reaction counts back
+        setReactionCounts(currentReactionCounts);
+    },[]);
 
+    function onReaction(event){
         //Checks if reaction is valid
         if(validReactions.includes(event.target.value)){
 
@@ -51,6 +71,7 @@ function Reaction({postId}) {
 
     return(
         <div>
+            {/*
             <div>
                 {
                     loading ? 
@@ -61,11 +82,12 @@ function Reaction({postId}) {
                     })
                 }
             </div>
+            */}
             <div class="btn-group" aria-label="Basic radio toggle button group" onChange={event=>onReaction(event)}>
             {validReactions.map((reaction)=>(
                 <div>
                 <input type="radio" class="btn-check" name={`radioButton${postId}`} id={reaction+postId} autocomplete="off" value={reaction}/>
-                <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/></label>
+                <label class="btn btn-outline-primary reaction-button" for={reaction+postId}><img src={images[reaction]} alt={reaction} className='reaction-img'/><span className='white-text'>{reactionCounts.reaction}</span></label>
                 </div>
             ))}
             </div>

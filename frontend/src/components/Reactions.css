@@ -4,10 +4,14 @@
 }
 
 .reaction-button {
-    padding: 0;
+    padding: 1px;
     transition-duration: 0.2;
 }
 
 .reaction-img {
     width:40px;
+}
+
+.white-text {
+    color: white;
 }
