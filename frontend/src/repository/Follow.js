@@ -51,6 +51,17 @@ export async function getFollowees(subscriberId){
     }
 }
 
+// Get Feed
+export async function getFeed(subscriberId){
+    const response = await axios.get(API_HOST + "/api/follows/feed/" + subscriberId);
+
+    if(response.data !== null) {
+        return response.data;
+    } else {
+        throw Error("Cannot get Feed");
+    }
+}
+
 // Remove
 export async function removeFollow(subscriberId, publisherId){
     const response = await axios.delete(API_HOST + "/api/follows/" + publisherId + "/" + subscriberId);

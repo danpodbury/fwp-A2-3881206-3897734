@@ -15,6 +15,9 @@ module.exports = (express, app) => {
     // Establish a follower relationship
     router.post("/", controller.create);
 
+    // Gte feed
+    router.get("/feed/:id", controller.feed);
+
     // Remove a reaction by id
     router.delete("/:pub/:sub", controller.destroy);
   
