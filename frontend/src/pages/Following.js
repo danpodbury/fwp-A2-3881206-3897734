@@ -22,8 +22,8 @@ function Following() {
   const [loading, setLoading] = useState(true);
     
     const unFollowUser = (id) =>{
+      FollowerRepo.removeFollow(JSON.parse(localStorage.getItem("currentUser")).user_id, id);
       setFollowingUsers(followingUsers.filter(item => item.user_id !== parseInt(id))); 
-      console.log("TODO: UNFOLLOW");
     }
 
     //Renders the following users
