@@ -37,10 +37,17 @@ exports.feed = async (req, res) => {
       subscriber_id: req.params.id,
     } 
   });
+  console.log("publishers:" + publishers);
+
+  if (publishers == ""){
+    console.log("Not subscribing to anyone");
+    res.json([]);
+    return;
+  }
 
   // get their ids
   let publisher_ids = [];
-  publishers.foreach((p)=>{
+  publishers.forEach((p)=>{
     publisher_ids.push(p.publisher_id);
   })
   console.log("publisher ids:" + publisher_ids);

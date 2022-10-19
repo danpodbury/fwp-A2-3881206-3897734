@@ -16,7 +16,7 @@ module.exports = (express, app) => {
     router.post("/", controller.create);
 
     // Gte feed
-    router.get("/:id", controller.feed);
+    router.get("/feed/:id", controller.feed);
 
     // Remove a reaction by id
     router.delete("/:pub/:sub", controller.destroy);
