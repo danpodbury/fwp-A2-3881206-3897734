@@ -13,6 +13,11 @@ export async function addPost(post){
     return response.data;
 }
 
+export async function getPostsByUsers(users){
+    const response = await axios.get(API_HOST + "/api/posts/"+users);
+    return response.data;
+}
+
 // Read
 export async function getPostById(id){
     const response = await axios.get(API_HOST + "/api/posts/"+id);
