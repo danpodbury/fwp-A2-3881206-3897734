@@ -19,6 +19,7 @@ tempFollowingUsers.push(new User(104,"Bruce","","","4/12/2021"));
 
 function Following() {
   const [followingUsers, setFollowingUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
     
     const unFollowUser = (id) =>{
       setFollowingUsers(followingUsers.filter(item => item.user_id !== parseInt(id))); 
@@ -32,11 +33,17 @@ function Following() {
 
     async function getFolloweeUserList(){
       var currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      FollowerRepo.getFollowees(currentUser.user_id).then(async result =>{
-        setFollowingUsers(result.map(async dbFollowees=>{
-          return await UserRepo.getUserById(dbFollowees.user_id);
-        }));
-      });
+      var tempListOfUsers = [];
+      var result = await FollowerRepo.getFollowees(currentUser.user_id)
+      console.log(result);
+      for(var i=0; i<result.length; i++){
+        const userObj = await UserRepo.getUserById(result[i]["publisher_id"]);
+        console.log("User obj: "+userObj);
+        tempListOfUsers.push(userObj);
+      }
+      console.log(tempListOfUsers);
+      setFollowingUsers(tempListOfUsers);
+      setLoading(false);
     }
     
 
@@ -49,7 +56,7 @@ function Following() {
             </tr>
           </thead>
           <tbody>
-        {followingUsers.length > 0 ? 
+        {!loading ? 
         followingUsers.map((user)=>(
             <tr key={"following"+user.user_id}>
               <th scope="row"><NavLink to={`/user/${user.user_id}`} className="btn btn-lg btn-primary">{user.name}</NavLink></th>
@@ -58,7 +65,7 @@ function Following() {
         ))
     :
             <tr>
-              <th style={{textAlign: "center"}}>You are not currently following anyone!</th>
+              <th style={{textAlign: "center"}}>Loading...</th>
             </tr>
     }
           </tbody>
