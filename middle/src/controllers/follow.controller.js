@@ -29,6 +29,34 @@ exports.pubs = async (req, res) => {
   res.json(publishers);
 };
 
+// Select all posts of this users publishers
+exports.feed = async (req, res) => {
+  // get all my publishers
+  const publishers = await db.follow.findAll({ 
+    where: { 
+      subscriber_id: req.params.id,
+    } 
+  });
+
+  // get their ids
+  let publisher_ids = [];
+  publishers.foreach((p)=>{
+    publisher_ids.push(p.publisher_id);
+  })
+  console.log("publisher ids:" + publisher_ids);
+  
+  // find all posts from those publishers
+  const posts = await db.post.findAll({ 
+    where: { 
+      user_id: publisher_ids,
+    } 
+  });
+  console.log("posts:" + posts);
+
+  //return posts
+  res.json(posts);
+};
+
 
 // Create a new follower/followee relation
 exports.create = async (req, res) => {
